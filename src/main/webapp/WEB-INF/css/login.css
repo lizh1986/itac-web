@@ -1,0 +1,61 @@
+body {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	border: none;
+	visibility: visible;
+	background-image: url("../image/background.png");
+	
+	font-family: "Microsoft YaHei", tahoma, arial, "Hiragino Sans GB", 宋体, sans-serif;
+}
+
+#login-div {
+	text-align: center;
+	margin-top: 15%;
+}
+
+.login-user {
+    background: url("../image/user_icon.png") no-repeat 0 ;
+    width: 350px;
+    height: 40px;
+    border-radius:12px;
+    border: 1px solid #999999;
+    box-shadow: 1px 1px 3px #cccccc;
+    padding-left: 10px;
+    margin-bottom: 10px;
+    text-indent:50px;
+    font-size: large;
+    background-color: white;
+}
+
+.login-pwd {
+	background: url("../image/pwd_icon.png") no-repeat 0 ;
+    width: 350px;
+    height: 40px;
+    border-radius:12px;
+    border: 1px solid #999999;
+    box-shadow: 1px 1px 3px #cccccc;
+    padding-left: 10px;
+    margin: 10px;
+    text-indent:50px;
+    font-size: large;
+    background-color: white;
+}
+
+.login-button {
+	width: 360px;
+	height: 40px;
+	border-radius: 10px;
+	border: 1px solid #999999;
+    box-shadow: 1px 1px 3px #cccccc;
+	font-size: large;
+	margin-top: 20px;
+}
+
+.login-button:HOVER {
+	background-color: #c0c0c0;
+	border-radius: 10px;
+	text-decoration: none;
+	border: 1px solid #999999;
+    box-shadow: 1px 1px 3px #cccccc;
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lenovo.itac.dao.GGYRDao">
+  
+  <select id="query" resultType="com.lenovo.itac.entity.GGYREntity">
+    SELECT IDOCNUM as iDocNum, 
+    	   WORKORDER_NUMBER AS mo, 
+    	   GGYR AS ggyr, 
+    	   PSSD AS pssd, 
+    	   RPSSD AS rpssd, 
+    	   STAMP AS stamp, 
+    	   CREATED AS created 
+    	   FROM cust.GGYR
+  </select>
+  
+</mapper>

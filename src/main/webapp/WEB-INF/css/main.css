@@ -1,0 +1,30 @@
+.main-title{
+	position:absolute;
+	left:15px;
+	color:#fff;
+	font-size:16px;
+	font-weight:bold;
+	padding:5px;
+}
+
+.topmenu{
+	
+}
+
+.topmenu a {
+	color:#FFF; text-decoration: none;  display:inline-block; height:23px; margin-top:4px; padding:7px 10px 0px 10px; vertical-align: middle;	
+}	
+/* .topmenu a:link{color: #FFF;text-decoration: none;}
+.topmenu a:visited{color: #FFF;text-decoration: none;} */
+
+.topmenu a:hover {
+	color: #000;
+	text-decoration: none;  
+	background:#F0E68C;
+}
+
+.topmenu .active {
+	color: #000;
+	text-decoration: none;  
+	background:#FFF;
+}
