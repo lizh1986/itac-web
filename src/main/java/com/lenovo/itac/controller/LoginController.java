@@ -18,6 +18,6 @@ public class LoginController {
 		if ("admin".equalsIgnoreCase(loginName) && "admin".equalsIgnoreCase(password)) {
 			return new ResponseEntity();
 		}
-		return new ResponseEntity("404");
+		return new ResponseEntity();
 	}
 }

@@ -2,15 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lenovo.itac.dao.GGYRDao">
   
-  <select id="query" resultType="com.lenovo.itac.entity.GGYREntity">
-    SELECT IDOCNUM as iDocNum, 
+  <select id="getTotalCount" resultType="Integer">
+  	SELECT COUNT(1) FROM CUST.GGYR WHERE 1=1
+  	<if test="mos != null">
+  		AND WORKORDER_NUMBER IN
+  		<foreach collection="mos" item="mo" index="index" open="(" close=")" separator=",">
+  			#{mo}
+  		</foreach>
+  	</if>
+  </select>
+  
+  <select id="queryByPage" resultType="com.lenovo.itac.entity.GGYREntity" parameterType="Map">
+    SELECT TOP ${rows} IDOCNUM AS iDocNum, 
     	   WORKORDER_NUMBER AS mo, 
-    	   GGYR AS ggyr, 
+    	   GGYR AS ggyr,
     	   PSSD AS pssd, 
     	   RPSSD AS rpssd, 
     	   STAMP AS stamp, 
     	   CREATED AS created 
-    	   FROM cust.GGYR
+    	   FROM (
+    	   SELECT ROW_NUMBER() OVER (ORDER BY STAMP DESC) AS rownumber, * FROM CUST.GGYR AS g
+    	   ) AS B WHERE rownumber > (${rows} * (${page} - 1))
+  	<if test="mos != null">
+  		AND B.WORKORDER_NUMBER IN
+  		<foreach collection="mos" item="mo" index="index" open="(" close=")" separator=",">
+  			#{mo}
+  		</foreach>
+  	</if>
   </select>
   
+  <select id="queryByList" resultType="String">
+  	SELECT DISTINCT WORKORDER_NUMBER AS mo
+  		FROM CUST.GGYR 
+  		WHERE WORKORDER_NUMBER IN
+  		<foreach item="item" collection="list" index="index" open="(" close=")" separator=",">
+  			#{item}
+  		</foreach>
+  </select>
 </mapper>

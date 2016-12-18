@@ -5,7 +5,7 @@ body {
 	width: 96%;
 	height: 100%;
     font-family:verdana,helvetica,arial,sans-serif;
-    padding:2%;
+    padding:1% 2% 2% 2%;
     font-size:12px;
     margin:0;
     overflow-y:hidden;

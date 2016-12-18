@@ -18,6 +18,12 @@
 		<script type="text/javascript" src="../js/ggyr.js"></script>
 	</head>
 	<body onresize="resize()">
+		<div id="searchTable">
+			<span style="margin-bottom:12px;">MO:</span>
+			<textarea id="mos" style="height: 16px;resize:none" spellcheck="false"></textarea>
+			<a href="#" class="easyui-linkbutton" plain="true" onclick="openDialog()">Batch</a>
+			<a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">Search</a>
+		</div>
 		<div>
 			<table id="ggyrTable"></table>
 		</div>

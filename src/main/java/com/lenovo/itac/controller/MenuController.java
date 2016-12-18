@@ -22,7 +22,7 @@ public class MenuController {
 		
 		MenuEntity entity = new MenuEntity();
 		entity.setId("001");
-		entity.setText("test");
+		entity.setText("Query");
 		entity.setIconCls(".icon-brash");
 		
 		Set<MenuEntity> children = new HashSet<MenuEntity>();
@@ -41,7 +41,10 @@ public class MenuController {
 		children.add(child2);
 		
 		entities.add(entity);
-		return (new ResponseEntity(entities));
+		
+		ResponseEntity response = new ResponseEntity();
+		response.setData(entities);
+		return response;
 	}
 	
 	@RequestMapping("/nav/second")

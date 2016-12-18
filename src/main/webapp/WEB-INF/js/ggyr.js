@@ -5,58 +5,54 @@ function resize() {
 			return document.documentElement.clientWidth * 0.96;
 		},
 		height: function() {
-			return document.documentElement.clientHeight * 0.93;
+			return document.documentElement.clientHeight * 0.88;
 		}
 	});
 }
 
-
 $(function(){
 	var width = document.documentElement.clientWidth * 0.96;
-	var height = document.documentElement.clientHeight * 0.93;
+	var height = document.documentElement.clientHeight * 0.88;
 	$("#ggyrTable").datagrid({
 		title: "",
 		width:width,
 		height: height,
 		singleSelect: true,
 		rownumbers: true,
+		queryParams: {},
+		url:"../ggyr/query",
+		loadFilter:function(data){
+			if(data){
+				var datas = {
+					rows: data.data,
+					total: data.total
+				};
+				return datas;
+			}
+		},
 		pagination:true,
+		striped: true,
+		pageSize: 5,
+		pageList: [5, 10, 20, 50],
 		fitColumns: true,
 		columns: [[{
-		        	   field:"idocNum",
-		        	   title:"iDOC Number",
-		        	   width:100
-		           }, {
 		        	   field:"mo",
 		        	   title:"MO",
-		        	   width:100
+		        	   width:150
 		           }, {
 		        	   field:"ggyr",
 		        	   title:"GGYR",
-		        	   width:100
+		        	   width:150
 		           }, {
 		        	   field:"pssd",
 		        	   title:"PSSD",
-		        	   width:100
+		        	   width:150
 		           }, {
 		        	   field:"rpssd",
 		        	   title:"RPSSD",
-		        	   width:100
-		           }, {
-		        	   field:"stamp",
-		        	   title:"Stamp",
-		        	   width:100
-		           }, {
-		        	   field:"created",
-		        	   title:"Created",
-		        	   width:100
-		           }]],
-		toolbar: [{
-			text: "Search",
-			iconCls: "icon-search",
-			plain: true,
-			handler:openDialog
-		}]
+		        	   width:150
+		           }
+		]]
 	});
 });
 
@@ -74,21 +70,42 @@ function openDialog() {
 		}]
 	});
 	
-	$("#searchText").attr("value", "");
+	$("#searchText").val($("#mos").val());
 	$("#searchText").focus();
 }
 
 function doSearch() {
 	var mos = $("#searchText").val();
+	if (!JUDGE.isNull(mos)) {
+		$("#mos").val(mos);
+	}
+	
+	var queryParams = $("#ggyrTable").datagrid("options").queryParams;
+	queryParams.mos = mos;
+	$("#ggyrTable").datagrid("options").queryParams = queryParams;
+	var rows = $("#ggyrTable").datagrid("getPager").data("pagination").options.pageSize;
+	
 	$.ajax({
 		type:"post",
 		url:"../ggyr/query",
 		dataType: "json",
-		data: mos,
+		data: {
+			page: 1,
+			rows: rows,
+			mos: $("#mos").val()
+		},
 		success: function(resp) {
 			debugger;
-			var data = resp.data;
-			$("#ggyrTable").datagrid("loadData", data);
+			var datas = {
+				total: resp.total,
+				data: resp.data
+			};
+			$("#ggyrTable").datagrid("loadData", datas);
+			
+			var msg = resp.msg;
+			if (msg) {
+				$.messager.alert("warning", msg.replace(/\\n/g, "<br/>"));
+			}
 			closeDialog();
 		},
 		error: function() {
