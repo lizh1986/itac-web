@@ -25,20 +25,6 @@ public class MenuController {
 		entity.setText("Query");
 		entity.setIconCls(".icon-brash");
 		
-		Set<MenuEntity> children = new HashSet<MenuEntity>();
-		entity.setChildren(children);
-		
-		MenuEntity child1 = new MenuEntity();
-		child1.setId("001-001");
-		child1.setText("test1");
-		child1.setIconCls(".icon-brash");
-		children.add(child1);
-		
-		MenuEntity child2 = new MenuEntity();
-		child2.setId("001-002");
-		child2.setText("test2");
-		child2.setIconCls(".icon-brash");
-		children.add(child2);
 		
 		entities.add(entity);
 		
@@ -57,24 +43,31 @@ public class MenuController {
 		MenuEntity entity = new MenuEntity();
 		entity.setId("001-001");
 		entity.setText("MO Status");
-		entity.setUrl("html/mo-status.html");
+		entity.setUrl("jsp/mo-status.jsp");
 		entity.setIconCls(".icon-brash");
+		entities.add(entity);
 		
 		MenuEntity entity2 = new MenuEntity();
 		entity2.setId("001-002");
 		entity2.setText("GGYR");
-		entity2.setUrl("html/ggyr.html");
+		entity2.setUrl("jsp/ggyr.jsp");
 		entity2.setIconCls(".icon-brash");
+		entities.add(entity2);
 		
 		MenuEntity entity3 = new MenuEntity();
 		entity3.setId("001-002");
 		entity3.setText("Build Done Fail List");
-		entity3.setUrl("html/builddone.html");
+		entity3.setUrl("jsp/builddone.jsp");
 		entity3.setIconCls(".icon-brash");
-		
-		entities.add(entity);
-		entities.add(entity2);
 		entities.add(entity3);
+		
+		MenuEntity entity4 = new MenuEntity();
+		entity4.setId("001-002");
+		entity4.setText("Aged MO List");
+		entity4.setUrl("jsp/agedmo.jsp");
+		entity4.setIconCls(".icon-brash");
+		entities.add(entity4);
+		
 		return entities;
 	}
 }

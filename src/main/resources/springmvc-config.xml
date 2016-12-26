@@ -37,11 +37,11 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 	
-	<mvc:resources location="/WEB-INF/css/" mapping="/css/**"></mvc:resources>
-	<mvc:resources location="/WEB-INF/easyui/" mapping="/easyui/**"></mvc:resources>
-	<mvc:resources location="/WEB-INF/html/" mapping="/html/**"></mvc:resources>
-	<mvc:resources location="/WEB-INF/js/" mapping="/js/**"></mvc:resources>
-	<mvc:resources location="/WEB-INF/image/" mapping="/image/**"></mvc:resources>
+	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
+	<mvc:resources location="/easyui/" mapping="/easyui/**"></mvc:resources>
+	<mvc:resources location="/jsp/" mapping="/jsp/**"></mvc:resources>
+	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
+	<mvc:resources location="/image/" mapping="/image/**"></mvc:resources>
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="102400000"></property>
@@ -50,8 +50,8 @@
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
             id="internalResourceViewResolver">
         <!-- 前缀 -->
-        <property name="prefix" value="/html/" />
+        <property name="prefix" value="/jsp/" />
         <!-- 后缀 -->
-        <property name="suffix" value=".html" />
+        <property name="suffix" value=".jsp" />
     </bean>
 </beans>

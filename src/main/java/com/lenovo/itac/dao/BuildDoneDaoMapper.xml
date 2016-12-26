@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lenovo.itac.dao.BuildDoneDao">
+  <select id="queryBuildDoneByMos" resultType="com.lenovo.itac.entity.BuildDoneEntity" parameterType="Map">
+    SELECT MAX(WORKORDER_NUMBER) as mo,
+    	   SERIAL_NUMBER as sn,
+    	   MAX(STATION_NUMBER) as stationNumber,
+    	   MAX(DATE_CREATED) as created
+    	   FROM IMS_VIEW.V_SNO_BOOKINGS
+    	   WHERE 1=1
+    	   <if test="list != null">
+    	   	AND WORKORDER_NUMBER IN
+    	   		<foreach collection="list" item="mo" index="index" open="(" close=")" separator=",">
+    	   			#{mo}
+    	   		</foreach>
+    	   </if>
+    	   AND CHARINDEX('_', SERIAL_NUMBER)=0
+    	   GROUP BY SERIAL_NUMBER
+    	   ORDER BY created DESC
+  </select>
+  
+  <select id="querySNWithLotNumber" resultType="String">
+  	SELECT
+  		SERIAL_NUMBER
+  		FROM IMS_VIEW.V_SHIPPING_LIST
+  		WHERE 1=1 
+  		<if test="list != null">
+  			AND SERIAL_NUMBER IN 
+  			<foreach collection="list" item="sn" index="index" open="(" close=")" separator=",">
+    	   			#{sn}
+    	   	</foreach>
+  		</if>
+  </select>
+  
+</mapper>
+

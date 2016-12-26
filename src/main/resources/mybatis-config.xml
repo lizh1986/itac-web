@@ -3,5 +3,7 @@
 <configuration>
     <mappers>
         <mapper resource="com/lenovo/itac/dao/GGYRDaoMapper.xml"/>
+        <mapper resource="com/lenovo/itac/dao/AgedMoDaoMapper.xml"/>
+        <mapper resource="com/lenovo/itac/dao/BuildDoneDaoMapper.xml"/>
     </mappers>
 </configuration>

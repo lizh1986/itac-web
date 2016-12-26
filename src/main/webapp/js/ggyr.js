@@ -32,8 +32,8 @@ $(function(){
 		},
 		pagination:true,
 		striped: true,
-		pageSize: 5,
-		pageList: [5, 10, 20, 50],
+		pageSize: 20,
+		pageList: [20, 50, 100],
 		fitColumns: true,
 		columns: [[{
 		        	   field:"mo",

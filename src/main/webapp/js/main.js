@@ -9,7 +9,7 @@
 			success: function(resp) {
 				var data = resp.data;
 				$("#topmenu").empty();
-				$("#topmenu").append("&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"javascript:addTab('首页','html/welcome.html')\" >首页</a>");
+				$("#topmenu").append("&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"javascript:addTab('首页','jsp/welcome.jsp')\" >首页</a>");
 				if(data.length > 0){
 					for(i in data) {
 						$("#topmenu").append("<a id='" + data[i].id+"'>" + data[i].text + "</a>");	

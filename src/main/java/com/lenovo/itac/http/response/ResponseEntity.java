@@ -6,7 +6,10 @@ public class ResponseEntity implements Serializable {
 	
 	private static final long serialVersionUID = 6039015411175596805L;
 
-	private static final String CODE_OK = "200";
+	public static final String CODE_OK = "200";
+	
+	/** 输入的MO为空 */
+	public static final String CODE_INFO_MO_EMPTY = "001";
 	
 	/** 返回的消息码 */
 	private String code = CODE_OK;

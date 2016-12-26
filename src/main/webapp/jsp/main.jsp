@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -33,14 +35,14 @@
 					<div style="text-align: right; padding-right: 20px; padding-top: 43px; padding-bottom: 4px;">	
 						<span style="color: #FDFDFD" id="loginuserInfo">欢迎你，${sessionScope.USER_SESSION_KEY.name}</span>
 						<span style="color: #FDFDFD" id="timeInfo"></span>
-						<a href="login.html" style="color: #FDFDFD; text-decoration: none;">退出</a>
+						<a href="login.jsp" style="color: #FDFDFD; text-decoration: none;">退出</a>
 					</div>
 					<div class="main-title" style="top: 10px; font-size: 30px; color: #FDFDFD; margin-left: 20px;">
 						iTAC-Web
 					</div>
 				</div>
 				<div id="topmenu" class="topmenu" style="height: 38px; background: url('image/maintop.png'); font-size: 14px; font-weight: bold;">
-				&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:addTab('首页','html/welcome.html')">首页</a>
+				&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:addTab('首页','jsp/welcome.jsp')">首页</a>
 				</div>
 			</div>
 			
@@ -56,7 +58,7 @@
 			<div region="center">
 				<div class="easyui-tabs" fit="true" id="first-tab">
 					<div title="首页" style="overflow-y: hidden;" data-options="closable:true">
-						<iframe width='100%' height='100%' id='iframe' name='iframe' frameborder='0' scrolling='no' src='html/welcome.html'></iframe>
+						<iframe width='100%' height='100%' id='iframe' name='iframe' frameborder='0' scrolling='no' src='jsp/welcome.jsp'></iframe>
 					</div>
 				</div>
 			</div>

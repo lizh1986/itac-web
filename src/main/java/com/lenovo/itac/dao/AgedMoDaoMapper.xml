@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lenovo.itac.dao.AgedMoDao">
+  
+  <select id="queryByMos" resultType="com.lenovo.itac.entity.AgedMoEntity" parameterType="Map">
+    SELECT max(c.CHARGE_EXT) as mo,
+    	   max(c.MAX_WO_QTY) as snNumber,
+    	   count(distinct SERIAL_NUMBER) as passed
+    	   FROM BDE.CHARGE c
+    	   LEFT JOIN IMS_VIEW.V_SNO_BOOKINGS b on c.CHARGE_EXT=b.WORKORDER_NUMBER
+    	   WHERE 1=1
+    	   <if test="mos != null">
+    	   	AND b.WORKORDER_NUMBER IN
+    	   		<foreach collection="mos" item="mo" index="index" open="(" close=")" separator=",">
+    	   			#{mo}
+    	   		</foreach>
+    	   </if>
+    	   AND b.STATION_NUMBER=#{stationNumber}
+    	   AND CHARINDEX('_',b.SERIAL_NUMBER)=0
+  </select>
+  
+  <select id="queryFirstBookingByMos" resultType="com.lenovo.itac.entity.AgedMoEntity">
+  	SELECT MAX(WORKORDER_NUMBER) as mo,MIN(DATE_CREATED) as firstBooking
+  		FROM IMS_VIEW.V_SNO_BOOKINGS
+  		WHERE 1=1
+  		<if test="list != null">
+    	   	AND WORKORDER_NUMBER IN
+    	   		<foreach collection="list" item="mo" index="index" open="(" close=")" separator=",">
+    	   			#{mo}
+    	   		</foreach>
+    	   </if>
+    	   AND STATION_NUMBER NOT LIKE '%ALP%'
+    	GROUP BY WORKORDER_NUMBER
+  </select>
+</mapper>
+

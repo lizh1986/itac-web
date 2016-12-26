@@ -29,14 +29,19 @@ function login() {
 		data:loginInfo,
 		success:function(resp)
 		{
+			debugger;
 			if (resp.code == 200)
 			{
 				$("#login-user").empty();
 				$("#login-pwd").empty();
 				window.location.href = "home";
-			}else
+			}else if (resp.code == 201)
 			{
-				$.messager.alert("提示消息","登录失败", "info");
+				$.messager.alert("提示消息","用户名和密码不能为空", "info");
+			} else if (resp.code == 202) {
+				$.messager.alert("提示消息","用户名或密码不正确", "info");
+			} else if (resp.code == 404) {
+				$.messager.alert("提示消息","认证失败。", "info");
 			}
 		},
 		error:function(event, request, settings)
