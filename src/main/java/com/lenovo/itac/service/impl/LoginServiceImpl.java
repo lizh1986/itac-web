@@ -1,5 +1,9 @@
 package com.lenovo.itac.service.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,21 @@ public class LoginServiceImpl implements LoginService {
 	
 	private IMSApiService imsApiService;
 	private IMSApiSessionContextStruct sessionContext;
+	
+	static {
+		InputStream input = LoginServiceImpl.class.getClassLoader().getResourceAsStream("ihas.properties");
+		Properties props = new Properties();
+		try {
+			props.load(input);
+			System.setProperty("itac.artes.clusternodes", props.getProperty("itac.artes.clusternodes"));
+			System.setProperty("itac.appid", props.getProperty("itac.appid"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+		
+		
+	}
 	
 	@Override
 	public boolean login(String userName, String password) {

@@ -106,7 +106,7 @@ function doSearch() {
 	queryParams.mos = mos;
 	$("#buildDoneTable").datagrid("options").queryParams = queryParams;
 	$("#buildDoneTable").datagrid("options").url = url;
-//	var rows = $("#agedmoTable").datagrid("getPager").data("pagination").options.pageSize;
+	var rows = $("#buildDoneTable").datagrid("getPager").data("pagination").options.pageSize;
 	
 	$.ajax({
 		type:"post",
@@ -126,7 +126,7 @@ function doSearch() {
 			
 			var firstPage = {
 				total: resp.total,
-				data: resp.data.slice(0,2)
+				data: resp.data.slice(0,rows)
 			};
 			$("#buildDoneTable").datagrid("loadData", firstPage);
 			

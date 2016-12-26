@@ -171,7 +171,7 @@ function doSearch() {
 	queryParams.mos = mos;
 	$("#agedmoTable").datagrid("options").queryParams = queryParams;
 	$("#agedmoTable").datagrid("options").url = url;
-//	var rows = $("#agedmoTable").datagrid("getPager").data("pagination").options.pageSize;
+	var rows = $("#agedmoTable").datagrid("getPager").data("pagination").options.pageSize;
 	
 	$.ajax({
 		type:"post",
@@ -191,7 +191,7 @@ function doSearch() {
 			
 			var firstPage = {
 				total: resp.total,
-				data: resp.data.slice(0,2)
+				data: resp.data.slice(0,rows)
 			};
 			$("#agedmoTable").datagrid("loadData", firstPage);
 			
