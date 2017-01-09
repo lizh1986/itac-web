@@ -17,22 +17,39 @@
 		<script type="text/javascript" src="../easyui/locale/easyui-lang-en.js"></script>
 		
 		<script type="text/javascript" src="../js/common.js"></script>
-		<script type="text/javascript" src="../js/agedmo.js"></script>
+		<script type="text/javascript" src="../js/mo.js"></script>
 	</head>
 	<body onresize="resize()>
 		<div id="searchTable">
-			<span style='margin-bottom:12px'>MO:</span>
+			<span style="margin-bottom:12px;">MO:</span>
 			<textarea id="mos" style="height: 16px;resize:none" spellcheck="false"></textarea>
 			<a href="#" class="easyui-linkbutton" plain="true" onclick="openDialog()">Batch</a>
 			<a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">Search</a>
+			<a href="#" class="easyui-linkbutton" plain="true" onClick="searchSns()">Pending SN</a>
 		</div>
+		
 		<div>
-			<table id="agedmoTable"></table>
+			<table id="moTable"></table>
 		</div>
+		
 		<div id="searchDialog" style="display:none; padding: 20px 20px 10px 20px;">
 			<label id="searchLabel">Please input MOs:</label><br>
 			<textarea id="searchText" style="width: 340px; height: 150px; margin-top: 10px; margin-bottom: 10px;" spellcheck="false"></textarea>
 			<span style="margin-right: 15px; margin-top: 20px;">Tip: MOs are seperated by new line break.</span>
 		</div>
+		
+		<div id="snDialog" class="easyui-dialog" style="width: 670px; height: 300px;"  
+         data-options="closed:true,resizable:true,modal:true,title:'Pending SN List'">
+         	<table id="snGrid" class="easyui-datagrid" style="width:655px;height:auto;">
+         		<thead>  
+	                <tr>  
+	                    <th field="mo" align="center" width="120" sortable="true">MO</th>  
+	                    <th field="sn" align="center" width="140" sortable="true">SN</th>  
+	                    <th field="workStep" align="center" width="120" sortable="false">Work Step</th>  
+	                    <th field="lastWsTime" align="center" width="240" sortable="false">Last Work Step Time</th>  
+	                </tr>  
+	            </thead>  
+	        </table>
+        </div>  
 	</body>
 </html>

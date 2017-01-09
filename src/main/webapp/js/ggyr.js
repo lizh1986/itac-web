@@ -116,5 +116,8 @@ function doSearch() {
 }
 
 function closeDialog() {
-	$("#searchDialog").dialog("close");
+	var dlg = $("#searchDialog").dialog();
+	if (dlg) {
+		$("#searchDialog").dialog("close");
+	}
 }

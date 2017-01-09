@@ -7,6 +7,6 @@
 		<title>iTAC-Web</title>
 	</head>
 	<body>
-		<div style=" margin:200px; text-align:center; font-size:28px;">欢迎使用 iTAC-Web系统</div>
+		<div style=" margin:200px; text-align:center; font-size:28px;">Welcome to iTAC-Web</div>
 	</body>
 </html>

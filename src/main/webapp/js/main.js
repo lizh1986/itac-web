@@ -9,16 +9,16 @@
 			success: function(resp) {
 				var data = resp.data;
 				$("#topmenu").empty();
-				$("#topmenu").append("&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"javascript:addTab('首页','jsp/welcome.jsp')\" >首页</a>");
+				$("#topmenu").append("&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"javascript:addTab('Home','jsp/welcome.jsp')\" >Home</a>");
 				if(data.length > 0){
 					for(i in data) {
 						$("#topmenu").append("<a id='" + data[i].id+"'>" + data[i].text + "</a>");	
 					}
 					//自动加载第一个一级菜单下面的二级菜单
-					$("#topmenu  a").get(1).click();	
+					$("#topmenu  a").get(1).click();
 				}
 			},error: function(event, request, settings) {
-				$.messager.alert("提示消息", "请求失败!", "info");
+				$.messager.alert("Warning", "Failed to load menus!", "info");
 			}
 		});
 		
@@ -44,19 +44,21 @@
 	});
 })(window.jQuery);
 
-// 添加选项卡方法
-function addTab(title, url) {
-	//先判断是否存在标题为title的选项卡
-	var tab = $('#first-tab').tabs('exists', title);
-	if(tab) {
-		//若存在则直接打开
-		$('#first-tab').tabs('select', title);
-	}else{
-		//否则创建
-		$('#first-tab').tabs('add', {
-			title: title,
-			content: "<iframe width='100%' height='100%'  id='iframe' frameborder='0' scrolling='no'  src='"+url+"'></iframe>",
-			closable: true
-		});
-	}
+function logout() {
+	debugger;
+	var url = "logout";
+	$.ajax({
+		type: "post",
+		url: url,
+		dataType: "json",
+		success: function(resp) {
+			if (resp.code == 400) {
+				$.messager.alert("Error", "Failed to logout at iTAC.", "Error");
+			} else {
+				window.location.href = "login.jsp";
+			}
+		},error: function(event, request, settings) {
+			$.messager.alert("Warning", "Failed to load menus!", "info");
+		}
+	});
 }

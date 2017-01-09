@@ -42,8 +42,8 @@ public class MenuController {
 		
 		MenuEntity entity = new MenuEntity();
 		entity.setId("001-001");
-		entity.setText("MO Status");
-		entity.setUrl("jsp/mo-status.jsp");
+		entity.setText("MO Info");
+		entity.setUrl("jsp/mo.jsp");
 		entity.setIconCls(".icon-brash");
 		entities.add(entity);
 		

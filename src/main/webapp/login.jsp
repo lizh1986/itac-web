@@ -20,8 +20,8 @@
 	<body>
 		<div id="login-div">
 			<form id="login-form" action="/itac-web/login">
-				<input type="text" id="login-user" class="login-user" maxlength="28" placeholder="用&nbsp;户&nbsp;名" tabindex="1"/><br>
-				<input type="password" id="login-pwd" class="login-pwd" maxlength="28" placeholder="密&nbsp;&nbsp;  码" tabindex="2"/><br>
+				<input type="text" id="login-user" class="login-user" maxlength="28" placeholder="User Name" tabindex="1"/><br>
+				<input type="password" id="login-pwd" class="login-pwd" maxlength="28" placeholder="Password" tabindex="2"/><br>
 				<input type="button" id="login-button" class="login-button" onclick="login();" onkeyup="login();" value="Login">
 			</form>
 		</div>

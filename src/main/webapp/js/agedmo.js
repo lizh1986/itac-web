@@ -50,16 +50,16 @@ $(function(){
 		        	   width:150,
 		        	   styler: function(value,row,index) {
 		        		   var v = $.trim(value.split('day')[0]);
-		        		   if (v >=2) {
-		        			   return 'background-color:red;';
+		        		   if (v >= 2) {
+		        			   return 'color:red;';
 		        		   }
 		        	   }
 		           }, {
 		        	   field:"id",
 		        	   title:"Operation",
 		        	   width:150,
-		        	   formatter: function() {
-		        		   return "<a href='http://www.baidu.com'>detail</a>";
+		        	   formatter: function(value, row, index) {
+		        		   return '<a href="javascript:void(0)" onclick="displayMoInfo(\'' + row.mo + '\')">detail</a>';
 		        	   }
 		           }
 		]]
@@ -87,56 +87,21 @@ $(function(){
 	});
 });
 
-function agedMoLoader(param, success, error) {
-	debugger;
-	var that = $(this);
-    var opts = that.datagrid("options");
-    if (!opts.url) {
-        return false;
-    }
-    
-    var cache = that.data().datagrid.cache;
-    if (!cache) {
-        $.ajax({
-            type: opts.method,
-            url: opts.url,
-            data: param,
-            dataType: "json",
-            success: function (data) {
-            	debugger;
-            	var result = {
-            			rows: data.data,
-    					total: data.total
-            	};
-                that.data().datagrid['cache'] = result;
-                buildData(result);
-            },
-            error: function () {
-                error.apply(this, arguments);
-            }
-        });
-    } else {
-    	buildData(cache);
-    }
-
-    function buildData(data) {
-        debugger;
-        var temp = $.extend({}, data);
-        var tempRows = [];
-        var start = (param.page - 1) * parseInt(param.rows);
-        var end = start + parseInt(param.rows);
-        var rows = data.rows;
-        for (var i = start; i < end; i++) {
-            if (rows[i]) {
-                tempRows.push(rows[i]);
-            } else {
-                break;
-            }
-        }
-  
-        temp.rows = tempRows;
-        return temp;
-    }
+function displayMoInfo(mo) {
+	$("#menuTree", window.parent.document).find("*").each(function() {
+		if ($(this).text().indexOf('MO Info') != -1) {
+			debugger;
+			$(this).parent().attr("mo", mo);
+			$(this).parent().click();
+			var that = this;
+			var t = setTimeout(function() {
+				$(that).parent().removeAttr("mo");
+				clearTimeout(t);
+			}, 600);
+		}
+	});
+	
+//	addTab(title, url);
 }
 
 function openDialog() {
@@ -178,8 +143,6 @@ function doSearch() {
 		url:url,
 		dataType: "json",
 		data: {
-//			page: 1,
-//			rows: rows,
 			mos: $("#mos").val()
 		},
 		success: function(resp) {
@@ -202,15 +165,14 @@ function doSearch() {
 			closeDialog();
 		},
 		error: function() {
-			$.messager.alert("Failed to query ggyr.");
+			$.messager.alert("Failed to query aged MO information.");
 		}
 	});
 	
 }
 
 function closeDialog() {
-	debugger;
-	var dlg = $("searchDialog").dialog();
+	var dlg = $("#searchDialog").dialog();
 	if (dlg) {
 		$("#searchDialog").dialog("close");
 	}

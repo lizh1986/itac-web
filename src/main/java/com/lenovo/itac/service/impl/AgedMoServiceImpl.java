@@ -36,20 +36,27 @@ public class AgedMoServiceImpl implements AgedMoService {
 			
 			List<AgedMoEntity> entities = agedMoDao.queryByMos(params);
 			
-			moList.clear();
-			Iterator<AgedMoEntity> it = entities.iterator();
+			// entities中存在某个MO的所有SN都未过Build Done，这种情况下查询出的MO为NULL，这种情况继续计算
+			// 两种情况继续计算：（1）MO为NULL；（2）SN = PASSED
+			Iterator<String> it = moList.iterator();
 			while(it.hasNext()) {
-				AgedMoEntity entity = it.next();
-				if (entity.getSnNumber() == entity.getPassed()) {
-					it.remove();
-				} else {
-					moList.add(entity.getMo());
+				String mo = it.next();
+				for (AgedMoEntity e : entities) {
+					if (e.getMo() == null || !e.getMo().equals(mo))
+						continue;
+					else {
+						if (e.getSnNumber() == e.getPassed()) {
+							it.remove();
+						}
+					}
+					
 				}
 			}
 			
-			List<AgedMoEntity> firstBookings = agedMoDao.queryFirstBookingByMos(moList);
-			
-			return firstBookings;
+			if (!moList.isEmpty()) {
+				List<AgedMoEntity> firstBookings = agedMoDao.queryFirstBookingByMos(moList);
+				return firstBookings;
+			}
 		}
 		
 		return null;

@@ -4,9 +4,9 @@
   
   <select id="queryByMos" resultType="com.lenovo.itac.entity.AgedMoEntity" parameterType="Map">
     SELECT max(c.CHARGE_EXT) as mo,
-    	   max(c.MAX_WO_QTY) as snNumber,
+    	   max(c.ME - c.nattrib1) as snNumber,
     	   count(distinct SERIAL_NUMBER) as passed
-    	   FROM BDE.CHARGE c
+    	   FROM BDE.v_AUFT c
     	   LEFT JOIN IMS_VIEW.V_SNO_BOOKINGS b on c.CHARGE_EXT=b.WORKORDER_NUMBER
     	   WHERE 1=1
     	   <if test="mos != null">
@@ -22,14 +22,14 @@
   <select id="queryFirstBookingByMos" resultType="com.lenovo.itac.entity.AgedMoEntity">
   	SELECT MAX(WORKORDER_NUMBER) as mo,MIN(DATE_CREATED) as firstBooking
   		FROM IMS_VIEW.V_SNO_BOOKINGS
-  		WHERE 1=1
+  		WHERE 1=1 
   		<if test="list != null">
-    	   	AND WORKORDER_NUMBER IN
+    	   	AND WORKORDER_NUMBER IN 
     	   		<foreach collection="list" item="mo" index="index" open="(" close=")" separator=",">
     	   			#{mo}
     	   		</foreach>
-    	   </if>
-    	   AND STATION_NUMBER NOT LIKE '%ALP%'
+    	</if>
+    	 AND STATION_NUMBER NOT LIKE '%ALP%' 
     	GROUP BY WORKORDER_NUMBER
   </select>
 </mapper>

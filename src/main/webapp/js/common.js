@@ -17,6 +17,23 @@ var JUDGE = {
 		}
 }
 
+//添加选项卡方法
+function addTab(title, url) {
+	//先判断是否存在标题为title的选项卡
+	var tab = $('#first-tab').tabs('exists', title);
+	if(tab) {
+		//若存在则直接打开
+		$('#first-tab').tabs('select', title);
+	}else{
+		//否则创建
+		$('#first-tab').tabs('add', {
+			title: title,
+			content: "<iframe width='100%' height='100%'  id='iframe' frameborder='0' scrolling='no'  src='"+url+"'></iframe>",
+			closable: true
+		});
+	}
+}
+
 function getURLParameter(name) {
     return decodeURI(
         (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]

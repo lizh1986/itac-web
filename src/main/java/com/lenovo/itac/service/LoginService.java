@@ -4,5 +4,5 @@ public interface LoginService {
 
 	public boolean login(String userName, String password);
 	
-	public void logout();
+	public boolean logout(String userName);
 }

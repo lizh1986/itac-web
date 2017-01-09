@@ -137,7 +137,7 @@ function doSearch() {
 			closeDialog();
 		},
 		error: function() {
-			$.messager.alert("Failed to query ggyr.");
+			$.messager.alert("Failed to query build done fail list.");
 		}
 	});
 	
@@ -145,7 +145,7 @@ function doSearch() {
 
 function closeDialog() {
 	debugger;
-	var dlg = $("searchDialog").dialog();
+	var dlg = $("#searchDialog").dialog();
 	if (dlg) {
 		$("#searchDialog").dialog("close");
 	}

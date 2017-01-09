@@ -48,7 +48,7 @@ public class GGYRController {
 				}
 				
 				if (sb.length() > 0) {
-					response.setMsg(String.format("The MOs below cound not be found.\\n%s", sb.toString()));
+					response.setMsg(String.format("The MOs below could not be found.\\n%s", sb.toString()));
 				}
 			}
 		}

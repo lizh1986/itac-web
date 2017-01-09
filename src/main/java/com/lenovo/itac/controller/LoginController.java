@@ -33,18 +33,24 @@ public class LoginController {
 			response.setCode("404");
 		}
 		return response;
-		
-//		if ("admin".equalsIgnoreCase(loginName) && "admin".equalsIgnoreCase(password)) {
-//			HttpSession session = request.getSession();
-//			if (session.getAttribute("user") == null) {
-//				session.setAttribute("user", info);
-//			}
-//			return new ResponseEntity();
-//		}
 	}
 	
 	@RequestMapping(value="/logout")
-	public void doLogout() {
+	public ResponseEntity doLogout(HttpServletRequest request) {
+		ResponseEntity response = new ResponseEntity();
 		
+		LoginUserInfo info = (LoginUserInfo)request.getSession().getAttribute("user");
+		if (info == null) {
+			response.setCode("404");
+		} else {
+			boolean result = loginService.logout(info.getLoginName());
+			if (!result) {
+				response.setCode("400");
+			} else {
+				request.getSession().removeAttribute("user");
+			}
+		}
+		
+		return response;
 	}
 }
