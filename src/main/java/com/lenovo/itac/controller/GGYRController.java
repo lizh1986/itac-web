@@ -30,6 +30,9 @@ public class GGYRController {
 		
 		int page = Integer.parseInt(request.getParameter("page") != null ? request.getParameter("page") : "1");
 		int rows = Integer.parseInt(request.getParameter("rows") != null ? request.getParameter("rows") : "20");
+		String sort = request.getParameter("sort");
+		String order = request.getParameter("order");
+		
 		String mos = request.getParameter("mos");
 		String[] arr = null;
 		if (null != mos && StringUtils.isNotEmpty(mos)) {
@@ -53,7 +56,7 @@ public class GGYRController {
 			}
 		}
 		
-		List<GGYREntity> entities = ggyrService.queryByMOs(page, rows, arr);
+		List<GGYREntity> entities = ggyrService.queryByMOs(page, rows, arr, sort, order);
 		int total = ggyrService.getTotalCount(arr);
 		
   		response.setData(convert(entities));

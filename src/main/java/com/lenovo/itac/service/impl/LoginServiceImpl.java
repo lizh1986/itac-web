@@ -5,7 +5,8 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Maps;
@@ -21,7 +22,7 @@ import com.lenovo.itac.service.LoginService;
 @Service
 public class LoginServiceImpl implements LoginService {
 
-	private static Logger logger = Logger.getLogger(LoginServiceImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
 	
 	private static final String STATION_NUMBER = "J31091000000000";
 	private static final String CLIENT_ID = "01";

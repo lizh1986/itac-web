@@ -22,7 +22,6 @@ $(function(){
 		queryParams: {},
 		method:"post",
 		loadFilter:function(data){
-			debugger;
 			if(data){
 				var result = {
 					rows: data.data,
@@ -47,7 +46,11 @@ $(function(){
 		           }, {
 		        	   field:"status",
 		        	   title:"STATUS",
-		        	   width:250
+		        	   width:100
+		           }, {
+		        	   field:"createdString",
+		        	   title:"Last Work Step Time",
+		        	   width:150
 		           }
 		]]
 	});
@@ -56,7 +59,6 @@ $(function(){
 	pager.pagination({
 //		total:datas.length,
 		onSelectPage:function (pageNo, pageSize) {
-			debugger;
 			var start = (pageNo - 1) * pageSize; 
 			var end = start + pageSize; 
 			
@@ -118,7 +120,6 @@ function doSearch() {
 			mos: $("#mos").val()
 		},
 		success: function(resp) {
-			debugger;
 			datas = {
 				total: resp.total,
 				data: resp.data
@@ -144,7 +145,6 @@ function doSearch() {
 }
 
 function closeDialog() {
-	debugger;
 	var dlg = $("#searchDialog").dialog();
 	if (dlg) {
 		$("#searchDialog").dialog("close");

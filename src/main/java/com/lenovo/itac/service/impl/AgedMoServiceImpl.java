@@ -1,6 +1,5 @@
 package com.lenovo.itac.service.impl;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -35,28 +34,28 @@ public class AgedMoServiceImpl implements AgedMoService {
 			params.put("mos", moList);
 			
 			List<AgedMoEntity> entities = agedMoDao.queryByMos(params);
-			
+			return entities;
 			// entities中存在某个MO的所有SN都未过Build Done，这种情况下查询出的MO为NULL，这种情况继续计算
 			// 两种情况继续计算：（1）MO为NULL；（2）SN = PASSED
-			Iterator<String> it = moList.iterator();
-			while(it.hasNext()) {
-				String mo = it.next();
-				for (AgedMoEntity e : entities) {
-					if (e.getMo() == null || !e.getMo().equals(mo))
-						continue;
-					else {
-						if (e.getSnNumber() == e.getPassed()) {
-							it.remove();
-						}
-					}
-					
-				}
-			}
-			
-			if (!moList.isEmpty()) {
-				List<AgedMoEntity> firstBookings = agedMoDao.queryFirstBookingByMos(moList);
-				return firstBookings;
-			}
+//			Iterator<String> it = moList.iterator();
+//			while(it.hasNext()) {
+//				String mo = it.next();
+//				for (AgedMoEntity e : entities) {
+//					if (e.getMo() == null || !e.getMo().equals(mo))
+//						continue;
+//					else {
+//						if (e.getSnNumber() == e.getPassed()) {
+//							it.remove();
+//						}
+//					}
+//					
+//				}
+//			}
+//			
+//			if (!moList.isEmpty()) {
+//				List<AgedMoEntity> firstBookings = agedMoDao.queryFirstBookingByMos(moList);
+//				return firstBookings;
+//			}
 		}
 		
 		return null;

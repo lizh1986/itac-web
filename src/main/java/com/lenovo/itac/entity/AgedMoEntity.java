@@ -11,7 +11,7 @@ public class AgedMoEntity implements Serializable {
 	
 	private int snNumber;
 	
-	private Date firstBooking;
+	private Date created;
 	
 	private int passed;
 	
@@ -33,12 +33,12 @@ public class AgedMoEntity implements Serializable {
 		this.snNumber = snNumber;
 	}
 
-	public Date getFirstBooking() {
-		return firstBooking;
+	public Date getCreated() {
+		return created;
 	}
 
-	public void setFirstBooking(Date firstBooking) {
-		this.firstBooking = firstBooking;
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 
 	public int getPassed() {

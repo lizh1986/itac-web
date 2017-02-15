@@ -48,8 +48,8 @@ public class AgedMoController {
 			for (AgedMoEntity entity : entities) {
 				AgedMoModel model = new AgedMoModel();
 				model.setMo(entity.getMo());
-				model.setFirstBooking(CommonUtils.format(entity.getFirstBooking()));
-				model.setAged(CommonUtils.calcDuration(entity.getFirstBooking()));
+				model.setCreated(CommonUtils.format(entity.getCreated()));
+				model.setAged(CommonUtils.calcDuration(entity.getCreated()));
 				models.add(model);
 			}
 		}

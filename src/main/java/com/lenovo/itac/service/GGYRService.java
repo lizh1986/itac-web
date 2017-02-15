@@ -8,7 +8,7 @@ public interface GGYRService {
 	
 	public int getTotalCount(String[] mos);
 	
-	public List<GGYREntity> queryByMOs(int page, int rows, String[] mos);
+	public List<GGYREntity> queryByMOs(int page, int rows, String[] mos, String sort, String order);
 	
 	public List<String> notExists(String[] mos);
 }

@@ -8,7 +8,7 @@ public class AgedMoModel implements Serializable {
 
 	private String mo;
 	
-	private String firstBooking;
+	private String created;
 
 	private String aged;
 	
@@ -20,12 +20,12 @@ public class AgedMoModel implements Serializable {
 		this.mo = mo;
 	}
 
-	public String getFirstBooking() {
-		return firstBooking;
+	public String getCreated() {
+		return created;
 	}
 
-	public void setFirstBooking(String firstBooking) {
-		this.firstBooking = firstBooking;
+	public void setCreated(String created) {
+		this.created = created;
 	}
 
 	public String getAged() {

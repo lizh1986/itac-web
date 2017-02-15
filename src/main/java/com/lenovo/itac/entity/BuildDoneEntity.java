@@ -1,6 +1,7 @@
 package com.lenovo.itac.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class BuildDoneEntity implements Serializable {
 
@@ -11,6 +12,10 @@ public class BuildDoneEntity implements Serializable {
 	private String sn;
 	
 	private String status;
+	
+	private Date created;
+	
+	private String createdString;
 	
 	private String stationNumber;
 
@@ -36,6 +41,22 @@ public class BuildDoneEntity implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public String getCreatedString() {
+		return createdString;
+	}
+
+	public void setCreatedString(String createdString) {
+		this.createdString = createdString;
 	}
 
 	public String getStationNumber() {

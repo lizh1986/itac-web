@@ -5,7 +5,8 @@
   <select id="queryByMos" resultType="com.lenovo.itac.entity.AgedMoEntity" parameterType="Map">
     SELECT max(c.CHARGE_EXT) as mo,
     	   max(c.ME - c.nattrib1) as snNumber,
-    	   count(distinct SERIAL_NUMBER) as passed
+    	   count(distinct SERIAL_NUMBER) as passed,
+    	   max(c.CHARGE_CREATED) as created
     	   FROM BDE.v_AUFT c
     	   LEFT JOIN IMS_VIEW.V_SNO_BOOKINGS b on c.CHARGE_EXT=b.WORKORDER_NUMBER
     	   WHERE 1=1

@@ -56,7 +56,7 @@ public class MoInfoServiceImpl implements MoInfoService {
 					MoAndWSModel child = new MoAndWSModel();
 					child.setWs(entity.getWorkStep());
 					child.setPassed(entity.getPassed());
-					
+					child.setMo(" ");
 					if (!firstReq && "R".equalsIgnoreCase(entity.getPassStationReq())) {
 						child.setPending(info.getQuantity() - entity.getPassed() + "," + entity.getPending());
 						firstReq = true;
@@ -66,8 +66,10 @@ public class MoInfoServiceImpl implements MoInfoService {
 					
 					child.setFirstBooking(CommonUtils.format(entity.getFirstBooking()));
 					child.setLastBooking(CommonUtils.format(entity.getLastBooking()));
-					
-					list.add(child);
+					//不展示RT Done的记录
+					if (!CommonUtils.RT_DONE_STATION.startsWith(child.getWs())) {
+						list.add(child);
+					}
 				}
 			}
 			return model;

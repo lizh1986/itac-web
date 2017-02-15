@@ -1,6 +1,6 @@
 
 function resize() {
-	$("#agedmoTable").datagrid("resize", {
+	$("#calendar").datagrid("resize", {
 		width: function() {
 			return document.documentElement.clientWidth * 0.96;
 		},
@@ -22,7 +22,6 @@ $(function(){
 		queryParams: {},
 		method:"post",
 		loadFilter:function(data){
-			debugger;
 			if(data){
 				var result = {
 					rows: data.data,
@@ -41,8 +40,8 @@ $(function(){
 		        	   title:"MO",
 		        	   width:150
 		           }, {
-		        	   field:"firstBooking",
-		        	   title:"First Booking Time",
+		        	   field:"created",
+		        	   title:"Creation Time",
 		        	   width:150
 		           }, {
 		        	   field:"aged",
@@ -69,7 +68,6 @@ $(function(){
 	pager.pagination({
 //		total:datas.length,
 		onSelectPage:function (pageNo, pageSize) {
-			debugger;
 			var start = (pageNo - 1) * pageSize; 
 			var end = start + pageSize; 
 			
@@ -90,7 +88,6 @@ $(function(){
 function displayMoInfo(mo) {
 	$("#menuTree", window.parent.document).find("*").each(function() {
 		if ($(this).text().indexOf('MO Info') != -1) {
-			debugger;
 			$(this).parent().attr("mo", mo);
 			$(this).parent().click();
 			var that = this;
@@ -146,7 +143,12 @@ function doSearch() {
 			mos: $("#mos").val()
 		},
 		success: function(resp) {
-			debugger;
+			if (resp.total <= 0) {
+				$("#agedmoTable").datagrid("loadData", {total: 0, data: []});
+				$.messager.alert("warning", "No Data Found.");
+				return;
+			}
+			
 			datas = {
 				total: resp.total,
 				data: resp.data

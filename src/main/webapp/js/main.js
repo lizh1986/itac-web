@@ -45,7 +45,6 @@
 })(window.jQuery);
 
 function logout() {
-	debugger;
 	var url = "logout";
 	$.ajax({
 		type: "post",
@@ -58,7 +57,7 @@ function logout() {
 				window.location.href = "login.jsp";
 			}
 		},error: function(event, request, settings) {
-			$.messager.alert("Warning", "Failed to load menus!", "info");
+			$.messager.alert("Warning", "Connection is Time out!", "info");
 		}
 	});
 }

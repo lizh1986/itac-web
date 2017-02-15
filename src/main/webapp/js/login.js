@@ -29,7 +29,6 @@ function login() {
 		data:loginInfo,
 		success:function(resp)
 		{
-			debugger;
 			if (resp.code == 200)
 			{
 				$("#login-user").empty();

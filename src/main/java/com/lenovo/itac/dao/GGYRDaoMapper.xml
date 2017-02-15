@@ -21,7 +21,7 @@
     	   STAMP AS stamp, 
     	   CREATED AS created 
     	   FROM (
-    	   SELECT ROW_NUMBER() OVER (ORDER BY STAMP DESC) AS rownumber, * FROM CUST.GGYR AS g
+    	   SELECT ROW_NUMBER() OVER (ORDER BY ${sort} ${order}) AS rownumber, * FROM CUST.GGYR AS g
     	   ) AS B WHERE rownumber > (${rows} * (${page} - 1))
   	<if test="mos != null">
   		AND B.WORKORDER_NUMBER IN

@@ -31,7 +31,7 @@ $(function(){
 					};
 				} else {
 					result = {
-						rows: data.data,
+						rows: data.rows,
 						total: data.total
 					};
 				}
@@ -68,7 +68,7 @@ $(function(){
 		           }, {
 		        	   field:"ws",
 		        	   title:"WS",
-		        	   width:100
+		        	   width:80
 		           }, {
 		        	   field:"quantity",
 		        	   title:"Quantity",
@@ -76,15 +76,15 @@ $(function(){
 		           }, {
 		        	   field:"mtm",
 		        	   title:"MTM",
-		        	   width:100
+		        	   width:80
 		           },{
 		        	   field:"passed",
 		        	   title:"Pass",
 		        	   width:70
 		           },{
 		        	   field:"pending",
-		        	   title:"Pending",
-		        	   width:70
+		        	   title:"Pending & Repair",
+		        	   width:100
 		           },{
 		        	   field:"creationTime",
 		        	   title:"Creation Time",
@@ -110,7 +110,7 @@ $(function(){
 			
 			var page = {
 				total: datas.total,
-				data: datas.data.slice(start, end)
+				rows: datas.data.slice(start, end)
 			};
 			
 			$("#moTable").treegrid("loadData", page);
@@ -120,7 +120,6 @@ $(function(){
 			}); 
 		}
 	});
-	debugger;
 	var tt = $("#menuTree", window.parent.document).attr("mo");
 	if (tt != null && tt != undefined) {
 		$("#mos").val(tt);
@@ -172,7 +171,6 @@ function doSearch() {
 			mos: $("#mos").val()
 		},
 		success: function(resp) {
-			debugger;
 			datas = {
 				total: resp.total,
 				data: resp.data
@@ -180,8 +178,9 @@ function doSearch() {
 			
 			var firstPage = {
 				total: resp.total,
-				data: resp.data.slice(0,rows)
+				rows: resp.data.slice(0,rows)
 			};
+//			$("#moTable").treegrid("loadData", {total: 0, rows: []});
 			$("#moTable").treegrid("loadData", firstPage);
 			
 			var msg = resp.msg;
@@ -197,7 +196,6 @@ function doSearch() {
 }
 
 function searchSns() {
-	debugger;
 	var mos = [];
 	var selected = $("#moTable").treegrid('getSelections');
 	for (var i = 0; i < selected.length; i++) {
@@ -228,7 +226,6 @@ function searchSns() {
 	            singleSelect: true
 	        })  
 	  
-	        debugger;
 	        var snList = {
 				total: resp.total,
 				rows: resp.data

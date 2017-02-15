@@ -11,6 +11,8 @@ public class MoAndWSModel implements Serializable {
 
 	private static final long serialVersionUID = -7862427481333970168L;
 	
+	private String mo;
+	
 	private String ws;
 	
 	private int passed;
@@ -20,6 +22,15 @@ public class MoAndWSModel implements Serializable {
 	private String firstBooking;
 	
 	private String lastBooking;
+	
+
+	public String getMo() {
+		return mo;
+	}
+
+	public void setMo(String mo) {
+		this.mo = mo;
+	}
 
 	public String getWs() {
 		return ws;

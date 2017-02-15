@@ -40,6 +40,7 @@ public class BuildDoneServiceImpl implements BuildDoneService {
 			Iterator<BuildDoneEntity> it = entities.iterator();
 			while(it.hasNext()) {
 				BuildDoneEntity e = it.next();
+				e.setCreatedString(CommonUtils.format(e.getCreated()));
 				if(!CommonUtils.BUILD_DONE_STATION.equalsIgnoreCase(e.getStationNumber())
 						&& !CommonUtils.RT_DONE_STATION.equalsIgnoreCase(e.getStationNumber())) {
 					BuildDoneEntity dest = copy(e);
@@ -78,6 +79,8 @@ public class BuildDoneServiceImpl implements BuildDoneService {
 			dest.setMo(src.getMo());
 			dest.setSn(src.getSn());
 			dest.setStationNumber(src.getStationNumber());
+			dest.setCreated(src.getCreated());
+			dest.setCreatedString(src.getCreatedString());
 			dest.setStatus(src.getStatus());
 		}
 		return dest;

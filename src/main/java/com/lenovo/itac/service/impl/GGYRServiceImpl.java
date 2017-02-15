@@ -43,7 +43,7 @@ public class GGYRServiceImpl implements GGYRService{
 	}
 	
 	@Override
-	public List<GGYREntity> queryByMOs(int page, int rows, String[] mos) {
+	public List<GGYREntity> queryByMOs(int page, int rows, String[] mos, String sort, String order) {
 		// TODO Auto-generated method stub
 		List<String> moList = null;
 		
@@ -56,11 +56,19 @@ public class GGYRServiceImpl implements GGYRService{
 				}
 			}
 		}
+		if (sort == null || order == null) {
+			sort = "stamp";
+			order = "desc";
+		} else if (sort.equals("mo")) {
+			sort = "WORKORDER_NUMBER";
+		}
 		
 		Map<String, Object> params = Maps.newHashMap();
 		params.put("page", page);
 		params.put("rows", rows);
 		params.put("mos", moList);
+		params.put("sort", sort);
+		params.put("order", order);
 		
 		return ggyrDao.queryByPage(params);
 	}
