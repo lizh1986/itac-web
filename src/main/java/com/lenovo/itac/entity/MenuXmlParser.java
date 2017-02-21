@@ -34,7 +34,11 @@ public class MenuXmlParser extends DefaultHandler2 {
 			parser = SAXParserFactory.newInstance().newSAXParser();
 			stream = MenuXmlParser.class.getClassLoader().getResourceAsStream("menu.xml");
 			parser.parse(stream, instance);
-		} catch (ParserConfigurationException | SAXException | IOException e) {
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			if (null != stream) {
