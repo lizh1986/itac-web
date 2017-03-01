@@ -24,7 +24,6 @@ public class LoginServiceImpl implements LoginService {
 
 	private static Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
 	
-	private static final String STATION_NUMBER = "J31091000000000";
 	private static final String CLIENT_ID = "01";
 	private static final String REGISTRATION_TYPE = "S";
 	private static final String SYSTEM_ID = "LenovoPickToLightClient";
@@ -33,6 +32,8 @@ public class LoginServiceImpl implements LoginService {
 	private static final String SUPER_ADMIN_PWD = "PASSWORD";
 	
 	private IMSApiService imsApiService;
+	
+	private static String stationNumber;
 	
 	private static Map<String, IMSApiSessionContextStruct> session;
 	
@@ -43,7 +44,7 @@ public class LoginServiceImpl implements LoginService {
 			props.load(input);
 			System.setProperty("itac.artes.clusternodes", props.getProperty("itac.artes.clusternodes"));
 			System.setProperty("itac.appid", props.getProperty("itac.appid"));
-			
+			stationNumber = props.getProperty("itac.station");
 			session = Maps.newConcurrentMap();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -64,7 +65,7 @@ public class LoginServiceImpl implements LoginService {
 			throw new RuntimeException("Fail to init IMS API ",e);
 		}
 		
-		sessionValidationStruct.stationNumber = STATION_NUMBER;
+		sessionValidationStruct.stationNumber = stationNumber;
 		sessionValidationStruct.stationPassword = null;
 		sessionValidationStruct.user = userName;
 		sessionValidationStruct.password = password;
