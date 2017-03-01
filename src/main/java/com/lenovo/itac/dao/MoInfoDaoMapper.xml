@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lenovo.itac.dao.MoInfoDao">      
+
+	<select id="queryMoInfoByMo" resultType="com.lenovo.itac.entity.MoInfoEntity" parameterType="java.lang.String">
+		SELECT 
+			CHARGE_EXT as mo,
+			ARTIKEL as mtm,
+			CREATED as createTime,
+			MAX_WO_QTY as quantity
+		FROM BDE.CHARGE 
+		WHERE 1=1
+		<if test="_parameter != null">
+			AND CHARGE_EXT=#{_parameter}
+		</if>
+	</select>
+
+  	<select id="queryMoAndWSByMo" resultType="com.lenovo.itac.entity.MoInfoEntity" parameterType="java.lang.String">
+  		WITH BK as (
+  			SELECT COUNT(DISTINCT SERIAL_NUMBER) as passed, SUBSTRING(STATION_NUMBER, 0, 8) as erpGroup,
+  			MIN(DATE_CREATED) as firstBooking, MAX(DATE_CREATED) as lastBooking 
+  			FROM IMS_VIEW.V_SNO_BOOKINGS
+  			WHERE WORKORDER_NUMBER=#{_parameter}
+  			AND CHARINDEX('_', SERIAL_NUMBER)=0
+  			GROUP BY SUBSTRING(STATION_NUMBER,0,8)
+  		), WORKSTEP as (
+  			SELECT wp.AS_NR as wsNo,wp.STEUER_KEY as passStationReq,eg.ERP_GRP_NR  as workstep
+  			FROM BDE.WDUP_POS wp
+  			JOIN BDE.ERP_GRP_REF eg ON wp.ERP_GRP_ID=eg.ERP_GRP_ID 
+  			JOIN BDE.CHARGE c ON c.WDUP_ID=wp.WDUP_ID
+  			WHERE c.CHARGE_EXT=#{_parameter}
+  		), PD as (
+  			SELECT count(sa.DATA) as pending,sa.DATA as wsNo FROM GLO.CHARGE_SNR_ATTRIB as sa 
+         	JOIN GLO.CHARGE_SNR sn ON (sn.SNR_ID = sa.SNR_ID) 
+         	JOIN GLO.CHARGE_SNR_ATTRIB_CODE ac ON ac.ID = sa.ATTRIB_NR
+         	JOIN BDE.CHARGE mo on mo.CHARGE_NR=sn.CHARGE_NR
+			WHERE ac.A_CODE = 'NEXT_WORK_STEP' 
+				and CHARINDEX('_',SN.SNR_EXT)=0 
+				and MO.CHARGE_EXT=#{_parameter}
+				and SA.DATA!='0' 
+			GROUP BY sa.DATA
+  		)
+  		SELECT w.wsNo as wsNo, w.passStationReq as passStationReq, w.workstep as workStep, 
+  			b.passed as passed, p.pending as pending, b.firstBooking as firstBooking, 
+  			b.lastBooking as lastBooking
+         	FROM WORKSTEP w
+         	LEFT JOIN BK b on w.workstep=b.erpGroup
+        	LEFT JOIN PD p on p.wsNo=w.wsNo
+        	ORDER BY wsNo ASC
+ 	 </select>
+  
+  	<select id="querySnInfoByMos" resultType="com.lenovo.itac.entity.SnInfoEntity">
+  		WITH WORKSTEP as (
+  			SELECT wp.AS_NR as wsNo, wp.STEUER_KEY as passStationReq, eg.ERP_GRP_NR  as workStep
+         	FROM BDE.WDUP_POS wp 
+         	JOIN BDE.ERP_GRP_REF eg on wp.ERP_GRP_ID=eg.ERP_GRP_ID 
+         	JOIN BDE.CHARGE c on c.WDUP_ID=wp.WDUP_ID
+         	where c.CHARGE_EXT=#{_parameter}
+  		), SNR as (
+  			SELECT MAX(sn.WORKORDER_NUMBER) as mo,
+  				MAX(sa.DATA) as wsNo,
+  				MAX(sn.SERIAL_NUMBER) as uwip,
+  				MAX(sn.DATE_CREATED) as lastWsTime 
+  			FROM GLO.CHARGE_SNR_ATTRIB AS sa 
+         	JOIN IMS_VIEW.V_SNO_BOOKINGS AS sn ON (sn.SERIAL_NUMBER_ID = sa.SNR_ID) 
+         	JOIN GLO.CHARGE_SNR_ATTRIB_CODE AS ac ON ac.ID = sa.ATTRIB_NR
+  			WHERE ac.A_CODE = 'NEXT_WORK_STEP' 
+  				and CHARINDEX('_',sn.SERIAL_NUMBER)=0 
+  				and sn.WORKORDER_NUMBER=#{_parameter} 
+  				GROUP BY sn.SERIAL_NUMBER
+  		)
+  		SELECT s.mo as mo, w.workStep as workStep, s.uwip as sn, s.lastWsTime as lastWsTime 
+  		FROM WORKSTEP w 
+        JOIN SNR s on w.wsNo=s.wsNo
+ 	 </select>
+  
+</mapper>
+

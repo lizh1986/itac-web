@@ -3,6 +3,11 @@ package com.lenovo.itac.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * GGYR数据库映射的对象
+ * @author lizh18
+ *
+ */
 public class GGYREntity implements Serializable {
 
 	private static final long serialVersionUID = -4299550900696673035L;

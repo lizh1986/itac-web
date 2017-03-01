@@ -2,8 +2,8 @@ package com.lenovo.itac.entity;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -21,7 +21,7 @@ public class MenuEntity implements Serializable {
 	
 	private String parentId;
 	
-	private Set<MenuEntity> children;
+	private List<MenuEntity> children;
 
 	public String getId() {
 		return id;
@@ -63,11 +63,11 @@ public class MenuEntity implements Serializable {
 		this.parentId = parentId;
 	}
 
-	public Set<MenuEntity> getChildren() {
+	public List<MenuEntity> getChildren() {
 		return children;
 	}
 
-	public void setChildren(Set<MenuEntity> children) {
+	public void setChildren(List<MenuEntity> children) {
 		this.children = children;
 	}
 	
