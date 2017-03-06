@@ -3,8 +3,11 @@ package com.lenovo.itac.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
+
 import com.lenovo.itac.entity.GGYREntity;
 
+@Repository
 public interface GGYRDao {
 
 	public int getTotalCount(Map<String, Object> params);

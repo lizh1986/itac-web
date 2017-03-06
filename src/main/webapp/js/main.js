@@ -1,7 +1,7 @@
 
 (function($) {
 	$(function(){
-		var url = "nav/first";
+		var url = "menu/first";
 		$.ajax({
 			type: "post",
 			url: url,
@@ -32,7 +32,7 @@
 			var parentId = $(this).attr("id");
 			if(!JUDGE.isNull(parentId)){
 				$('#menuTree').tree({
-					url:"nav/second?id=" + parentId,
+					url:"menu/second?id=" + parentId,
 					onClick: function(node) {
 						if(node.attributes){
 							addTab(node.text,node.attributes.href);	

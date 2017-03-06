@@ -21,12 +21,28 @@
 		<property name="location" value="classpath:jdbc.properties" />
 	</bean>
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="${db.driver}" />
-		<property name="url" value="${db.url}" />
-		<property name="username" value="${db.username}" />
-		<property name="password" value="${db.password}" />
+	<bean id="itacDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${itac.db.driver}" />
+		<property name="url" value="${itac.db.url}" />
+		<property name="username" value="${itac.db.username}" />
+		<property name="password" value="${itac.db.password}" />
+		<!-- 初始化连接大小 -->
+		<property name="initialSize" value="${db.initialSize}"></property>
+		<!-- 连接池最大数量 -->
+		<property name="maxActive" value="${db.maxActive}"></property>
+		<!-- 连接池最大空闲 -->
+		<property name="maxIdle" value="${db.maxIdle}"></property>
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="${db.minIdle}"></property>
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="${db.maxWait}"></property>
+	</bean>
+	
+	<bean id="itacWebDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${itac.web.db.driver}" />
+		<property name="url" value="${itac.web.db.url}" />
+		<property name="username" value="${itac.web.db.username}" />
+		<property name="password" value="${itac.web.db.password}" />
 		<!-- 初始化连接大小 -->
 		<property name="initialSize" value="${db.initialSize}"></property>
 		<!-- 连接池最大数量 -->
@@ -40,39 +56,70 @@
 	</bean>
 
 	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+	<bean id="itacSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="itacDataSource" />
+		<property name="MapperLocations" value="classpath*:com/lenovo/itac/dao/*.xml"></property>
 	</bean>
+	
+	<bean id="itacWebSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="itacWebDataSource" />
+		<property name="MapperLocations" value="classpath*:com/lenovo/itac_web/dao/*.xml"></property>
+	</bean>
+	
+	<!-- 配置SqlSessionTemplate -->  
+    <bean id="itacSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">  
+        <constructor-arg name="sqlSessionFactory" ref="itacSessionFactory" />  
+    </bean>
+    
+    <bean id="itacWebSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">  
+        <constructor-arg name="sqlSessionFactory" ref="itacWebSessionFactory" />  
+    </bean>
+    
+    <!-- 配置mybatis mapper接口 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.lenovo.itac.dao"/>
+        <property name="sqlSessionTemplateBeanName" value="itacSessionTemplate"/>
+    </bean>
+    
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.lenovo.itac_web.dao"/>
+        <property name="sqlSessionTemplateBeanName" value="itacWebSessionTemplate"/>
+    </bean>
 
+	<!-- 
 	<bean id="ggyrDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.lenovo.itac.dao.GGYRDao"></property>
-		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+		<property name="sqlSessionFactory" ref="itacSessionFactory"></property>
 	</bean>
 	
 	<bean id="agedMoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.lenovo.itac.dao.AgedMoDao"></property>
-		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+		<property name="sqlSessionFactory" ref="itacSessionFactory"></property>
 	</bean>
 	
 	<bean id="buildDoneDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.lenovo.itac.dao.BuildDoneDao"></property>
-		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+		<property name="sqlSessionFactory" ref="itacSessionFactory"></property>
 	</bean>
 	
 	<bean id="moInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.lenovo.itac.dao.MoInfoDao"></property>
-		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+		<property name="sqlSessionFactory" ref="itacSessionFactory"></property>
 	</bean>
 	
 	<bean id="offDayDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.lenovo.itac.dao.OffDayDao"></property>
-		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+		<property name="sqlSessionFactory" ref="itacSessionFactory"></property>
 	</bean>
-
-	<bean id="transactionManager"
+ 	-->
+	<bean id="itacTransactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="itacDataSource" />
+	</bean>
+	
+	<bean id="itacWebTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="itacWebDataSource" />
 	</bean>
 
 </beans>  

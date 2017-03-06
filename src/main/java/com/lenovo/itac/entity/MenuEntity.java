@@ -19,6 +19,9 @@ public class MenuEntity implements Serializable {
 	
 	private String iconCls;
 	
+	/** 同级菜单的顺序，以0开头 */
+	private int position;
+	
 	private String parentId;
 	
 	private List<MenuEntity> children;
@@ -55,6 +58,14 @@ public class MenuEntity implements Serializable {
 		this.iconCls = iconCls;
 	}
 	
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
+
 	public String getParentId() {
 		return parentId;
 	}
@@ -80,11 +91,9 @@ public class MenuEntity implements Serializable {
 		return null;
 	}
 
+	@Override
 	public String toString() {
-		return "id:" + id + "-" +
-			"text:" + text + "-" +
-			"url:" + url + "-" +
-			"iconCls:" + iconCls +
-			"parentId:" + parentId;
+		return "MenuEntity [id=" + id + ", text=" + text + ", url=" + url + ", iconCls=" + iconCls + ", position="
+				+ position + ", parentId=" + parentId + ", children=" + children + "]";
 	}
 }
