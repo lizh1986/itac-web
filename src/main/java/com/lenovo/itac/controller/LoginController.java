@@ -1,5 +1,7 @@
 package com.lenovo.itac.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -8,14 +10,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lenovo.itac.entity.LoginUserInfo;
+import com.lenovo.itac.entity.PlantEntity;
 import com.lenovo.itac.http.response.ResponseEntity;
 import com.lenovo.itac.service.LoginService;
+import com.lenovo.itac.service.PlantService;
+import com.lenovo.itac.util.CommonUtils;
+import com.lenovo.itac.util.Constants;
 
 @RestController
 public class LoginController {
 
 	@Autowired
 	private LoginService loginService;
+	
+	@Autowired
+	private PlantService plantService;
 	
 	@RequestMapping(value = "/login")
 	public ResponseEntity doLogin(LoginUserInfo info, HttpServletRequest request) {
@@ -25,6 +34,19 @@ public class LoginController {
 		
 		boolean result = loginService.login(loginName, password);
 		if (result) {
+			String clusterNodes = System.getProperty(Constants.ITAC_ARTES_CLUSTERNODES);
+			List<String> ips = CommonUtils.getIpsFromString(clusterNodes);
+			if (ips != null) {
+				PlantEntity plant = null;
+				for (String ip : ips) {
+					plant = plantService.getPlantByIp(ip);
+					if (plant != null) {
+						info.setPlant(plant.getName());
+						break;
+					}
+				}
+			}
+			
 			HttpSession session = request.getSession();
 			if (session.getAttribute("user") == null) {
 				session.setAttribute("user", info);

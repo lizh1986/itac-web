@@ -10,6 +10,8 @@ public class LoginUserInfo implements Serializable {
 	
 	private String password;
 	
+	private String plant;
+	
 	public String getLoginName() {
 		return loginName;
 	}
@@ -21,5 +23,11 @@ public class LoginUserInfo implements Serializable {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getPlant() {
+		return plant;
+	}
+	public void setPlant(String plant) {
+		this.plant = plant;
 	}
 }

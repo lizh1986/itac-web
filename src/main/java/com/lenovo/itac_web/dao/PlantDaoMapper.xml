@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lenovo.itac_web.dao.PlantDao">
+  
+  <select id="getPlantByIp" parameterType="String" resultType="com.lenovo.itac.entity.PlantEntity">
+    select * from t_plant where ip=#{ip}
+  </select>
+  
+  <select id="getPlantsByName" parameterType="String" resultType="com.lenovo.itac.entity.PlantEntity">
+  	select * from t_plant where name=#{name}
+  </select>
+  
+  <select id="getAllPlantNames" resultType="String">
+  	select distinct name from t_plant
+  </select>
+</mapper>
+

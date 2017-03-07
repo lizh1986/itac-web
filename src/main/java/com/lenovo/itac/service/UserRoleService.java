@@ -10,7 +10,7 @@ public interface UserRoleService {
 
 	public UserRoleEntity getUserRoleById(String id);
 	
-	public UserRoleEntity getUserRoleByName(String name);
+	public UserRoleEntity getUserRoleByUserGroupAndPlant(String userGroup, String plant);
 	
 	public List<UserRoleEntity> getUserRoles(Map<String, String> params);
 
@@ -22,7 +22,7 @@ public interface UserRoleService {
 	
 	public List<String> getMenuIdsByRoleId(String roleId);
 	
-	public List<MenuEntity> getMenusByRoleName(String roleName);
+	public List<MenuEntity> getMenusByUserGroupAndPlant(String userGroup, String plant);
 	
 	public void assignPermission(String roleId, String[] menuIds);
 }

@@ -26,8 +26,11 @@ public class UserRoleServiceImpl implements UserRoleService {
 	}
 	
 	@Override
-	public UserRoleEntity getUserRoleByName(String name) {
-		return userRoleDao.getUserRoleByName(name);
+	public UserRoleEntity getUserRoleByUserGroupAndPlant(String userGroup, String plant) {
+		Map<String, String> params = Maps.newHashMap();
+		params.put("userGroup", userGroup);
+		params.put("plant", plant);
+		return userRoleDao.getUserRoleByUserGroupAndPlant(params);
 	}
 	
 	@Override
@@ -57,9 +60,11 @@ public class UserRoleServiceImpl implements UserRoleService {
 	}
 
 	@Override
-	public List<MenuEntity> getMenusByRoleName(String roleName) {
-		// TODO Auto-generated method stub
-		return userRoleDao.getMenusByRoleName(roleName);
+	public List<MenuEntity> getMenusByUserGroupAndPlant(String userGroup, String plant) {
+		Map<String, String> params = Maps.newHashMap();
+		params.put("userGroup", userGroup);
+		params.put("plant", plant);
+		return userRoleDao.getMenusByUserGroupAndPlant(params);
 	}
 
 	@Override

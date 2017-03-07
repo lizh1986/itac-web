@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.lenovo.itac.entity.LoginUserInfo;
+import com.lenovo.itac.entity.UserGroupEntity;
 import com.lenovo.itac.entity.UserRoleEntity;
 import com.lenovo.itac.http.response.ResponseCode;
 import com.lenovo.itac.http.response.ResponseEntity;
+import com.lenovo.itac.service.LoginService;
 import com.lenovo.itac.service.UserRoleService;
 
 @RestController
@@ -27,6 +30,9 @@ public class UserRoleController {
 	private static Logger logger = LoggerFactory.getLogger(UserRoleController.class.getName());
 	@Autowired
 	private UserRoleService userRoleService;
+	
+	@Autowired
+	private LoginService loginService;
 	
 	@RequestMapping("/getRoles")
 	public ResponseEntity getUserRoles(HttpServletRequest request) {
@@ -71,9 +77,11 @@ public class UserRoleController {
 			return response;
 		}
 		
-		String userName = userRole.getName();
-		if (!StringUtils.isEmpty(userName)) {
-			UserRoleEntity existRole = userRoleService.getUserRoleByName(userName);
+		String userGroup = userRole.getUserGroup();
+		if (!StringUtils.isEmpty(userGroup)) {
+			String plant = ((LoginUserInfo)request.getSession().getAttribute("user")).getPlant();
+			userRole.setPlant(plant);
+			UserRoleEntity existRole = userRoleService.getUserRoleByUserGroupAndPlant(userGroup, plant);
 			if (null == existRole) {
 				userRoleService.addUserRole(userRole);
 			} else {
@@ -98,9 +106,11 @@ public class UserRoleController {
 			return response;
 		}
 		
-		String userName = userRole.getName();
-		if (!StringUtils.isEmpty(userName)) {
-			UserRoleEntity existRole = userRoleService.getUserRoleByName(userName);
+		String userGroup = userRole.getUserGroup();
+		if (!StringUtils.isEmpty(userGroup)) {
+			String plant = ((LoginUserInfo)request.getSession().getAttribute("user")).getPlant();
+			userRole.setPlant(plant);
+			UserRoleEntity existRole = userRoleService.getUserRoleByUserGroupAndPlant(userGroup, plant);
 			if (null == existRole) {
 				userRoleService.addUserRole(userRole);
 			} else {
@@ -127,13 +137,24 @@ public class UserRoleController {
 		String[] idArray = ids.split(",");
 		
 		List<String> idList = Lists.newArrayList();
+		List<String> failedList = Lists.newArrayList();
 		if (idArray != null) {
 			for (String id : idArray) {
-				idList.add(id);
+				List<String> menuIds = userRoleService.getMenuIdsByRoleId(id);
+				if (menuIds == null || menuIds.size() == 0) {
+					idList.add(id);
+				} else {
+					failedList.add(id);
+				}
 			}
 		}
 		
 		userRoleService.deleteUserRoles(idList);
+		
+		if (failedList.size() != 0) {
+			response.setCode(ResponseCode.RESPONSE_CODE_ROLE_HAS_BEEN_ASSIGNED);
+			response.setMsg(ResponseCode.RESPONSE_CODE_ROLE_HAS_BEEN_ASSIGNED_MSG + "\r\n" + failedList);
+		}
 		
 		return response;
 	}
@@ -157,8 +178,15 @@ public class UserRoleController {
 	@RequestMapping("/assignPermission")
 	public ResponseEntity assignPermission(String roleId, String[] menuIds) {
 		ResponseEntity response = new ResponseEntity();
-		
 		userRoleService.assignPermission(roleId, menuIds);
+		return response;
+	}
+	
+	@RequestMapping("/getAllUserGroups")
+	public ResponseEntity getAllUserGroups() {
+		ResponseEntity response = new ResponseEntity();
+		List<UserGroupEntity> userGroups = loginService.getAllUserGroups();
+		response.setData(userGroups);
 		return response;
 	}
 }

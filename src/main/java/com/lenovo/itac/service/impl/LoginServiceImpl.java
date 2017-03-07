@@ -20,6 +20,7 @@ import com.itac.mes.imsapi.domain.container.IMSApiSessionValidationStruct;
 import com.itac.mes.imsapi.domain.container.Result_regLogin;
 import com.itac.mes.imsapi.domain.container.Result_regLogout;
 import com.lenovo.itac.dao.LoginDao;
+import com.lenovo.itac.entity.UserGroupEntity;
 import com.lenovo.itac.service.LoginService;
 import com.lenovo.itac.util.Constants;
 
@@ -42,9 +43,9 @@ public class LoginServiceImpl implements LoginService {
 		Properties props = new Properties();
 		try {
 			props.load(input);
-			System.setProperty("itac.artes.clusternodes", props.getProperty("itac.artes.clusternodes"));
-			System.setProperty("itac.appid", props.getProperty("itac.appid"));
-			stationNumber = props.getProperty("itac.station");
+			System.setProperty(Constants.ITAC_ARTES_CLUSTERNODES, props.getProperty(Constants.ITAC_ARTES_CLUSTERNODES));
+			System.setProperty(Constants.ITAC_APP_ID, props.getProperty(Constants.ITAC_APP_ID));
+			stationNumber = props.getProperty(Constants.ITAC_STATION);
 			session = Maps.newConcurrentMap();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -106,5 +107,10 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public List<String> getUserGroupsByUserName(String userName) {
 		return loginDao.getUserGroupsByUserName(userName);
+	}
+
+	@Override
+	public List<UserGroupEntity> getAllUserGroups() {
+		return loginDao.getAllUserGroups();
 	}
 }

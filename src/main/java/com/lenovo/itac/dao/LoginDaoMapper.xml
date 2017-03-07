@@ -8,5 +8,11 @@
     	join bde.PERMISSION_GRP pg on ps.PERMISSION_GRP_ID = pg.ID
     	where upper(ps.BDE_USERID) = upper(#{userName})
   </select>
+  
+  <select id="getAllUserGroups" resultType="com.lenovo.itac.entity.UserGroupEntity">
+  	select ID as id,
+  		GRP_NAME as name
+  		from bde.PERMISSION_GRP
+  </select>
 </mapper>
 

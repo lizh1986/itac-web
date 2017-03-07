@@ -67,8 +67,6 @@ $(function() {
 function addRole() {
 	$("#addRoleDialog").dialog({
 		title: "Add Role",
-		width: 300,
-		height: 240,
 		buttons: [{
 			text: "Save",
 			handler: saveRole
@@ -76,6 +74,27 @@ function addRole() {
 			text: "Cancel",
 			handler: closeDialog
 		}]
+	});
+	
+	$('#userGroup').combobox({
+	    valueField:'id',
+	    textField:'text',
+	    url: "../role/getAllUserGroups",
+	    editable:false,
+	    loadFilter: function(resp) {
+	    	if (resp.data) {
+	    		var response = [];
+	    		for (var i = 0; i < resp.data.length; i++) {
+	    			var item = new Object();
+	    			item.id = resp.data[i].id;
+	    			item.text = resp.data[i].name;
+	    			response.push(item);
+	    		}
+	    		return response;
+	    	} else {
+	    		return data;
+	    	}
+	    }
 	});
 }
 
@@ -117,7 +136,6 @@ function deleteRoles() {
 }
 
 function modifyRole(role) {
-	debugger;
 	var userRole;
 	$.ajax({
 		type:"post",
@@ -131,8 +149,6 @@ function modifyRole(role) {
 				userRole = resp.data;
 				$("#modifyRoleDialog").dialog({
 					title: "Modify Role",
-					width: 300,
-					height: 240,
 					buttons: [{
 						text: "Save",
 						handler: function() {
@@ -144,6 +160,7 @@ function modifyRole(role) {
 							var entity = {
 								"id": role,
 								"name": $("#modifyRoleNameValue").val(),
+								"userGroup": $("#updateUserGroup").combobox("getText"),
 								"description": $("#modifyRoleDescValue").val()
 							};
 							$.ajax({
@@ -178,6 +195,29 @@ function modifyRole(role) {
 				});
 				$("#modifyRoleNameValue").val(userRole.name);
 				$("#modifyRoleDescValue").val(userRole.description);
+				
+				$("#updateUserGroup").combobox({
+					valueField:'id',
+				    textField:'text',
+				    url: "../role/getAllUserGroups",
+				    editable:false,
+				    loadFilter: function(resp) {
+				    	if (resp.data) {
+				    		var response = [];
+				    		for (var i = 0; i < resp.data.length; i++) {
+				    			var item = new Object();
+				    			item.id = resp.data[i].id;
+				    			item.text = resp.data[i].name;
+				    			response.push(item);
+				    		}
+				    		return response;
+				    	} else {
+				    		return data;
+				    	}
+				    }
+				});
+				$("#updateUserGroup").combobox("setValue", userRole.userGroup);
+				
 			} else {
 				$.messager.alert("Error", "Failed to load Role.");
 			}
@@ -276,6 +316,8 @@ function assign(roleId) {
 
 function saveRole() {
 	var roleName = $("#addRoleNameValue").val();
+	var group = $("#userGroup").combobox("getText");
+	debugger;
 	if (JUDGE.isNull(roleName)) {
 		$.messager.alert("Warning", "Role Name is required.");
 		return;
@@ -284,6 +326,7 @@ function saveRole() {
 	
 	var userRoleEntity = {
 		"name": roleName,
+		"userGroup": group,
 		"description": roleDesc
 	};
 	

@@ -32,18 +32,62 @@
 			<table id="roleTable"></table>
 		</div>
 		
-		<div id="addRoleDialog" style="display:none; padding: 20px 20px 10px 20px;">
-			<label id="addRoleName">Role Name</label>
-			<input id="addRoleNameValue" type="text" style="width:148px;margin-left:20px;" value=""><br><br>
-			<label id="addRoleDesc">Description</label><br>
-			<textarea id="addRoleDescValue" style="width: 240px; height: 60px; margin-top: 10px; margin-bottom: 10px;" spellcheck="false"></textarea>
+		<div id="addRoleDialog" style="width:400px;height:320px;display:none; padding: 20px 20px 10px 20px;">
+			<table style="width:340px;height:200px;">
+				<tr style="padding: 20px 20px 10px 20px;">
+					<td style="text-align:right;width:100px;padding-right:10px;">
+						<label id="addRoleName">Role Name</label>
+					</td>
+					<td>
+						<input id="addRoleNameValue" type="text" style="width:200px" value="">
+					</td>
+				</tr>
+				<tr style="padding: 20px 20px 10px 20px;">
+					<td style="text-align:right;width:100px;padding-right:10px;">
+						<label>User Group</label>
+					</td>
+					<td>
+						<input id="userGroup" name="userGroup" class="easyui-combobox" value="Please choose" style="width:200px">
+					</td>
+				</tr>
+				<tr style="height: 70px;padding: 20px 20px 10px 20px;">
+					<td style="text-align:right;width:100px;padding-right:10px;">
+						<label id="addRoleDesc">Description</label>
+					</td>
+					<td>
+						<textarea id="addRoleDescValue" style="width:200px;height:70px;" spellcheck="false"></textarea>
+					</td>
+				</tr>
+			</table>
 		</div>
 		
-		<div id="modifyRoleDialog" style="display:none; padding: 20px 20px 10px 20px;">
-			<label id="modifyRoleName">Role Name</label>
-			<input id="modifyRoleNameValue" type="text" style="width:148px;margin-left:20px;" value=""><br><br>
-			<label id="modifyRoleDesc">Description</label><br>
-			<textarea id="modifyRoleDescValue" style="width: 240px; height: 60px; margin-top: 10px; margin-bottom: 10px;" spellcheck="false"></textarea>
+		<div id="modifyRoleDialog" style="width:400px;height:320px;display:none; padding: 20px 20px 10px 20px;">
+			<table style="width:340px;height:200px;">
+				<tr style="padding: 20px 20px 10px 20px;">
+					<td style="text-align:right;width:100px;padding-right:10px;">
+						<label id="modifyRoleName">Role Name</label>
+					</td>
+					<td>
+						<input id="modifyRoleNameValue" type="text" style="width:200px" value="">
+					</td>
+				</tr>
+				<tr style="padding: 20px 20px 10px 20px;">
+					<td style="text-align:right;width:100px;padding-right:10px;">
+						<label>User Group</label>
+					</td>
+					<td>
+						<input id="updateUserGroup" name="updateUserGroup" class="easyui-combobox" value="Please choose" style="width:200px">
+					</td>
+				</tr>
+				<tr style="height: 70px;padding: 20px 20px 10px 20px;">
+					<td style="text-align:right;width:100px;padding-right:10px;">
+						<label id="modifyRoleDesc">Description</label>
+					</td>
+					<td>
+						<textarea id="modifyRoleDescValue" style="width:200px;height:70px;" spellcheck="false"></textarea>
+					</td>
+				</tr>
+			</table>
 		</div>
 		
 		<div id="assignRoleDialog" style="display:none; width: 390px; height: 390px; padding: 10px 20px;">

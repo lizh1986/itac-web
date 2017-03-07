@@ -13,7 +13,7 @@ public interface UserRoleDao {
 
 	public UserRoleEntity getUserRoleById(String id);
 	
-	public UserRoleEntity getUserRoleByName(String name);
+	public UserRoleEntity getUserRoleByUserGroupAndPlant(Map<String, String> params);
 	
 	public List<UserRoleEntity> getUserRoles(Map<String, String> params);
 
@@ -25,7 +25,7 @@ public interface UserRoleDao {
 	
 	public List<String> getMenuIdsByRoleId(String roleId);
 	
-	public List<MenuEntity> getMenusByRoleName(String roleName);
+	public List<MenuEntity> getMenusByUserGroupAndPlant(Map<String,String> params);
 	
 	public void addRoleMenuMapping(Map<String, String> params);
 	

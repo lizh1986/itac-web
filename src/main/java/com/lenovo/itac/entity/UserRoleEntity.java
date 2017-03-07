@@ -10,6 +10,10 @@ public class UserRoleEntity implements Serializable {
 	
 	private String name;
 	
+	private String plant;
+	
+	private String userGroup;
+	
 	private String description;
 
 	public String getId() {
@@ -36,8 +40,25 @@ public class UserRoleEntity implements Serializable {
 		this.description = description;
 	}
 
+	public String getPlant() {
+		return plant;
+	}
+
+	public void setPlant(String plant) {
+		this.plant = plant;
+	}
+
+	public String getUserGroup() {
+		return userGroup;
+	}
+
+	public void setUserGroup(String userGroup) {
+		this.userGroup = userGroup;
+	}
+
 	@Override
 	public String toString() {
-		return "UserRoleEntity [id=" + id + ", name=" + name + ", desc=" + description + "]";
+		return "UserRoleEntity [id=" + id + ", name=" + name + ", plant=" + plant + ", userGroup=" + userGroup
+				+ ", description=" + description + "]";
 	}
 }

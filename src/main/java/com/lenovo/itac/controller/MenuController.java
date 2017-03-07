@@ -47,32 +47,23 @@ public class MenuController {
 		if (userName.equalsIgnoreCase(Constants.SUPER_ADMIN)) {
 			response.setData(menuService.getFirstMenu());
 		} else {
-			List<String> userGroups = loginService.getUserGroupsByUserName(userName);
-			
-			List<MenuEntity> allowMenus = Lists.newArrayList();
-			List<MenuEntity> menus = null;
-			for (String userGroup : userGroups) {
-				menus = userRoleService.getMenusByRoleName(userGroup);
-				if (menus != null) {
-					allowMenus.addAll(menus);
-				}
-			}
-			
-			List<MenuEntity> firstMenus = menuService.getFirstMenu();
-			
-			List<MenuEntity> result = Lists.newArrayList();
-			for (MenuEntity menu : firstMenus) {
-				for (MenuEntity inner : allowMenus) {
-					if (inner.getId().equals(menu.getId())
-							|| inner.getParentId().equals(menu.getId())) {
-						result.add(menu);
+			String plant = ((LoginUserInfo)request.getSession().getAttribute("user")).getPlant();
+			if (plant != null) {
+				List<MenuEntity> allowMenus = getAllowedMenuList(userName, plant);
+				List<MenuEntity> firstMenus = menuService.getFirstMenu();
+				
+				List<MenuEntity> result = Lists.newArrayList();
+				for (MenuEntity menu : firstMenus) {
+					for (MenuEntity inner : allowMenus) {
+						if (inner.getId().equals(menu.getId())) {
+							result.add(menu);
+						}
+						break;
 					}
-					break;
 				}
+				menuService.sortByPosition(result);
+				response.setData(result);
 			}
-			menuService.sortByPosition(result);
-			
-			response.setData(result);
 		}
 		return response;
 	}
@@ -87,31 +78,45 @@ public class MenuController {
 			menuService.sortByPosition(entities);
 			return entities;
 		} else {
-			List<String> userGroups = loginService.getUserGroupsByUserName(userName);
-			
-			List<MenuEntity> allowMenus = Lists.newArrayList();
-			List<MenuEntity> menus = null;
-			for (String userGroup : userGroups) {
-				menus = userRoleService.getMenusByRoleName(userGroup);
-				if (menus != null) {
-					allowMenus.addAll(menus);
-				}
-			}
-			
-			List<MenuEntity> entities = menuService.getSecondMenuByParentId(parentId);
-			
-			List<MenuEntity> result = Lists.newArrayList();
-			for (MenuEntity menu : entities) {
-				for (MenuEntity inner : allowMenus) {
-					if (menu.getId().equals(inner.getId())) {
-						result.add(menu);
-						break;
+			String plant = ((LoginUserInfo)request.getSession().getAttribute("user")).getPlant();
+			if (plant != null) {
+				List<MenuEntity> allowMenus = getAllowedMenuList(userName, plant);
+				List<MenuEntity> entities = menuService.getSecondMenuByParentId(parentId);
+				
+				List<MenuEntity> result = Lists.newArrayList();
+				for (MenuEntity menu : entities) {
+					for (MenuEntity inner : allowMenus) {
+						if (menu.getId().equals(inner.getId())) {
+							result.add(menu);
+							break;
+						}
 					}
 				}
-
+				menuService.sortByPosition(result);
+				return result;
 			}
-			menuService.sortByPosition(result);
-			return result;
+			return null;
 		}
+	}
+	
+	private List<MenuEntity> getAllowedMenuList(String userName, String plantName) {
+		List<String> userGroups = loginService.getUserGroupsByUserName(userName);
+		
+		List<MenuEntity> allowMenus = Lists.newArrayList();
+		List<MenuEntity> menus = null;
+		for (String userGroup : userGroups) {
+			menus = userRoleService.getMenusByUserGroupAndPlant(userGroup, plantName);
+			if (menus != null) {
+				allowMenus.addAll(menus);
+			}
+		}
+		if (allowMenus.size() == 0) {
+			menus = userRoleService.getMenusByUserGroupAndPlant(Constants.DEFAULT_ROLE, null);
+			if (menus != null) {
+				allowMenus.addAll(menus);
+			}
+		}
+		
+		return allowMenus;
 	}
 }
