@@ -144,6 +144,19 @@ function doSearch() {
 	
 }
 
+function doExport() {
+	var mos = $("#searchText").val();
+	if (!JUDGE.isNull(mos)) {
+		$("#mos").val(mos);
+	} else {
+		mos = $("#mos").val();
+		$("#searchText").val(mos);
+	}
+	mos = mos.replace(/\r\n/g, ',');
+	mos = mos.replace(/\n/g, ',');
+	window.location.href = '../builddone/export?mos=' + mos;
+}
+
 function closeDialog() {
 	var dlg = $("#searchDialog").dialog();
 	if (dlg) {

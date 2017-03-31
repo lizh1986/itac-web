@@ -25,6 +25,7 @@
 			<textarea id="mos" style="height: 16px;resize:none" spellcheck="false"></textarea>
 			<a href="#" class="easyui-linkbutton" plain="true" onclick="openDialog()">Batch</a>
 			<a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">Search</a>
+			<a href="#" class="easyui-linkbutton" plain="true" onclick="doExport()">Export</a>
 		</div>
 		<div>
 			<table id="buildDoneTable"></table>

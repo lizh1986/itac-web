@@ -2,7 +2,15 @@ package com.lenovo.itac.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.google.common.collect.Lists;
 
 public class CommonUtils {
 	
@@ -20,6 +28,9 @@ public class CommonUtils {
 	
 	/** 换行符 */
 	public static final String CHARACTER_NEW_LINE = "\\n";
+	
+	/** 逗号分隔符 */
+	public static final String CHARACTER_COMMA = ",";
 	
 	public static final String BUILD_DONE_STATION = "J33091000000000";
 	public static final String RT_DONE_STATION = "J33092000000000";
@@ -87,5 +98,31 @@ public class CommonUtils {
 			return true;
 		}
 		return false;
+	}
+	
+	public static List<String> getIpsFromString(String src) {
+		if (!StringUtils.isEmpty(src)) {
+			List<String> ips = Lists.newArrayList();
+			Matcher m = Pattern.compile(Constants.REG_MATCHER_IP).matcher(src);
+			while (m.find()) {
+				ips.add(m.group(1));
+			}
+			return ips;
+		}
+		return null;
+	}
+	
+	public static void close(AutoCloseable closable) throws Exception {
+		if (null != closable) {
+			closable.close();
+		}
+	}
+	
+	public static boolean isEmpty(Collection<?> collection) {
+		return (collection == null || collection.size() == 0);
+	}
+	
+	public static boolean isNotEmpty(Collection<?> collection) {
+		return !isEmpty(collection);
 	}
 }

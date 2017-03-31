@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lenovo.itac.dao.OffDayDao">
-  	<insert id="insert" parameterType="OffDay">
+  	<insert id="insert" parameterType="com.lenovo.itac.entity.OffDay">
   		INSERT INTO CUST.OFF_DAYS(OFF_DAY,CREATED)  
              VALUES (#{offDay},#{created})
   	</insert>
@@ -13,7 +13,7 @@
   	
   	<select id="queryOffDays" resultType="String">
   		SELECT OFF_DAY FROM CUST.OFF_DAYS
-  		WHERE OFF_DAY BETWEEN #{0} AND #{1}
+  		WHERE OFF_DAY BETWEEN #{startDate} AND #{endDate}
   	</select>
 </mapper>
 

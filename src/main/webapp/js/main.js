@@ -1,7 +1,7 @@
 
 (function($) {
 	$(function(){
-		var url = "nav/first";
+		var url = "menu/first";
 		$.ajax({
 			type: "post",
 			url: url,
@@ -32,7 +32,7 @@
 			var parentId = $(this).attr("id");
 			if(!JUDGE.isNull(parentId)){
 				$('#menuTree').tree({
-					url:"nav/second?id=" + parentId,
+					url:"menu/second?id=" + parentId,
 					onClick: function(node) {
 						if(node.attributes){
 							addTab(node.text,node.attributes.href);	
@@ -51,13 +51,13 @@ function logout() {
 		url: url,
 		dataType: "json",
 		success: function(resp) {
-			if (resp.code == 400) {
-				$.messager.alert("Error", "Failed to logout at iTAC.", "Error");
-			} else {
+			if (resp.code == 200) {
 				window.location.href = "login.jsp";
+			} else {
+				$.messager.alert("Logout", resp.msg, "warning");
 			}
 		},error: function(event, request, settings) {
-			$.messager.alert("Warning", "Connection is Time out!", "info");
+			$.messager.alert("Logout", "Connection is Time out!", "warning");
 		}
 	});
 }

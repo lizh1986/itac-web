@@ -34,6 +34,12 @@ public class AgedMoServiceImpl implements AgedMoService {
 			params.put("mos", moList);
 			
 			List<AgedMoEntity> entities = agedMoDao.queryByMos(params);
+			if (entities != null && entities.size() == 1) {
+				AgedMoEntity entity = entities.get(0);
+				if (entity.getMo() == null) {
+					return null;
+				}
+			}
 			return entities;
 			// entities中存在某个MO的所有SN都未过Build Done，这种情况下查询出的MO为NULL，这种情况继续计算
 			// 两种情况继续计算：（1）MO为NULL；（2）SN = PASSED

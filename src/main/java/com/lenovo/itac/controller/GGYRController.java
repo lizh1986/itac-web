@@ -1,17 +1,26 @@
 package com.lenovo.itac.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lenovo.itac.entity.GGYREntity;
+import com.lenovo.itac.export.Exporter;
+import com.lenovo.itac.export.GGYRExporter;
 import com.lenovo.itac.http.response.ResponseEntity;
 import com.lenovo.itac.model.GGYRModel;
 import com.lenovo.itac.service.GGYRService;
@@ -21,6 +30,8 @@ import com.lenovo.itac.util.CommonUtils;
 @RequestMapping("/ggyr")
 public class GGYRController {
 
+	private static Logger logger = LoggerFactory.getLogger(GGYRController.class);
+	
 	@Autowired
 	private GGYRService ggyrService;
 	
@@ -34,6 +45,10 @@ public class GGYRController {
 		String order = request.getParameter("order");
 		
 		String mos = request.getParameter("mos");
+		
+		logger.info("query - the ggyr query condition -  page: {}, rows: {}, sort: {}, order: {}, mos: {}"
+				, page, rows, sort, order, mos);
+		
 		String[] arr = null;
 		if (null != mos && StringUtils.isNotEmpty(mos)) {
 			arr = mos.split(CommonUtils.CHARACTER_NEW_LINE);
@@ -59,9 +74,50 @@ public class GGYRController {
 		List<GGYREntity> entities = ggyrService.queryByMOs(page, rows, arr, sort, order);
 		int total = ggyrService.getTotalCount(arr);
 		
+		logger.info("query ggyr info success, total is : {}", total);
   		response.setData(convert(entities));
   		response.setTotal(total);
 		return response;
+	}
+	
+	@RequestMapping(value="/export", method=RequestMethod.GET)
+	public void exportGGYR(HttpServletRequest request, HttpServletResponse response) {
+		String mos = request.getParameter("mos");
+		if (null != mos && StringUtils.isNotEmpty(mos)) {
+			String[] arr = mos.split(CommonUtils.CHARACTER_COMMA);
+			List<GGYREntity> result = ggyrService.queryByMos(arr);
+			
+			if (CommonUtils.isNotEmpty(result)) {
+				List<GGYRModel> models = convert(result);
+				
+				Exporter exporter = new GGYRExporter(models);
+				HSSFWorkbook wb = exporter.export();
+				
+				response.setContentType("application/vnd.ms-excel;charset=UTF-8");
+				response.setContentType(request.getServletContext().getMimeType(exporter.getExportFileName()));
+		        response.setHeader("Content-Disposition", "attachment;filename=" + exporter.getExportFileName());
+		        
+		        OutputStream os = null;
+		        BufferedOutputStream bos = null;
+		        try {
+					os = response.getOutputStream();
+					bos = new BufferedOutputStream(os);
+					bos.flush();
+					wb.write(bos);
+					
+				} catch (IOException e) {
+					logger.info("Failed to export ggyr info", e);
+				} finally {
+					try {
+						CommonUtils.close(bos);
+						CommonUtils.close(os);
+						CommonUtils.close(wb);
+					} catch (Exception e) {
+						logger.error("Failed to export ggyr info.", e);
+					}
+				}
+			}
+		}
 	}
 	
 	private List<GGYRModel> convert(List<GGYREntity> entities) {

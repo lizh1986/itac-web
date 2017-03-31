@@ -105,10 +105,8 @@ function doSearch(sort, order) {
 	if (!JUDGE.isNull(mos)) {
 		$("#mos").val(mos);
 	}
+	debugger;
 	
-//	var queryParams = $("#ggyrTable").datagrid("options").queryParams;
-//	queryParams.mos = mos;
-//	$("#ggyrTable").datagrid("options").queryParams = queryParams;
 	var rows = $("#ggyrTable").datagrid("getPager").data("pagination").options.pageSize;
 	var page = $("#ggyrTable").datagrid("getPager").data("pagination").options.pageNumber;
 	if (page <= 0) {
@@ -143,7 +141,19 @@ function doSearch(sort, order) {
 			$.messager.alert("Failed to query ggyr.");
 		}
 	});
-	
+}
+
+function doExport() {
+	var mos = $("#searchText").val();
+	if (!JUDGE.isNull(mos)) {
+		$("#mos").val(mos);
+	} else {
+		mos = $("#mos").val();
+		$("#searchText").val(mos);
+	}
+	mos = mos.replace(/\r\n/g, ',');
+	mos = mos.replace(/\n/g, ',');
+	window.location.href = '../ggyr/export?mos=' + mos;
 }
 
 function closeDialog() {

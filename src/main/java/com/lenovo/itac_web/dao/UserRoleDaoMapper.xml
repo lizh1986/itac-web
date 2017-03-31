@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lenovo.itac_web.dao.UserRoleDao">
+  
+  <resultMap id="userRole" type="com.lenovo.itac.entity.UserRoleEntity">
+  	<id property="id" column="id" jdbcType="VARCHAR"/>
+  	<result property="name" column="name" jdbcType="VARCHAR"/>
+  	<result property="plant" column="name" jdbcType="VARCHAR"/>
+  	<result property="userGroup" column="usergroup" jdbcType="VARCHAR"/>
+  	<result property="description" column="description" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <select id="getUserRoleById" parameterType="String" resultMap="userRole">
+  	select * from t_role where id=#{id}
+  </select>
+  
+  <select id="getUserRoleByUserGroupAndPlant" parameterType="Map" resultMap="userRole">
+  	select * from t_role where usergroup=#{userGroup} and plant=#{plant}
+  </select>
+  
+  <select id="getUserRoles" resultMap="userRole">
+  	select * from t_role 
+  	<where>
+  		1=1
+  		<if test="name != null">
+  			and name like concat('%',#{name},'%')
+  		</if>
+  		and (plant is null or plant=#{plant})
+  	</where>
+  </select>
+  
+  <insert id="addUserRole" parameterType="com.lenovo.itac.entity.UserRoleEntity">
+	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+		select uuid() from dual
+	</selectKey>
+	insert into t_role(id, name, plant, usergroup, description)
+		values (
+		#{id, jdbcType=VARCHAR}, 
+		#{name, jdbcType=VARCHAR}, 
+		#{plant, jdbcType=VARCHAR}, 
+		#{userGroup, jdbcType=VARCHAR}, 
+		#{description, jdbcType=VARCHAR})
+  </insert>
+  
+  <delete id="deleteUserRoles">
+  	delete from t_role where id in
+  	<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+    	#{id}
+    </foreach>
+  </delete>
+  
+  <update id="updateUserRole" parameterType="com.lenovo.itac.entity.UserRoleEntity">
+  	update t_role
+  	<trim prefix="set" suffixOverrides=",">
+  		<if test="name != null">
+  			name=#{name, jdbcType=VARCHAR},
+  		</if>
+  		<if test="plant != null">
+  			plant=#{plant, jdbcType=VARCHAR},
+  		</if>
+  		<if test="userGroup != null">
+  			usergroup=#{userGroup, jdbcType=VARCHAR},
+  		</if>
+  		<if test="description != null">
+  			description=#{description, jdbcType=VARCHAR},
+  		</if>
+  	</trim>
+  	<set>
+  		
+  	</set>
+  	where id=#{id, jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getMenuIdsByRoleId" parameterType="String" resultType="String">
+  	select menu_id from t_role_menu_mapping
+  	<where>
+  		role_id=#{roleId}
+  	</where>
+  </select>
+  
+  <select id="getMenusByUserGroupAndPlant" parameterType="Map" resultType="com.lenovo.itac.entity.MenuEntity">
+  	select me.* from t_role_menu_mapping mm
+  		join t_menu me on mm.menu_id=me.id
+  		join t_role r on mm.role_id=r.id
+  		<where>
+  			1=1
+  			<if test="userGroup != null">
+  				and r.usergroup=#{userGroup, jdbcType=VARCHAR}
+  			</if>
+  			<if test="plant != null">
+  				and r.plant=#{plant, jdbcType=VARCHAR}
+  			</if>
+  		</where>
+  </select>
+  
+  <insert id="addRoleMenuMapping" parameterType="Map">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+  		select uuid() from dual
+  	</selectKey>
+  	insert into t_role_menu_mapping(id, role_id, menu_id)
+		values (#{id, jdbcType=VARCHAR}, #{roleId, jdbcType=VARCHAR}, #{menuId, jdbcType=VARCHAR})
+  </insert>
+  
+  <delete id="deleteRoleMenuMapping" parameterType="Map">
+  	delete from t_role_menu_mapping
+  	<where>
+  		role_id=#{roleId, jdbcType=VARCHAR} and menu_id=#{menuId, jdbcType=VARCHAR}
+  	</where>
+  </delete>
+</mapper>
+
