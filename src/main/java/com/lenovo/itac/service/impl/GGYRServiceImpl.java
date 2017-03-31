@@ -19,6 +19,7 @@ import com.lenovo.itac.util.CommonUtils;
 @Service
 public class GGYRServiceImpl implements GGYRService{
 
+	private static final int BATCH_SIZE = 50;
 	@Autowired
 	private GGYRDao ggyrDao;
 	
@@ -71,6 +72,39 @@ public class GGYRServiceImpl implements GGYRService{
 		params.put("order", order);
 		
 		return ggyrDao.queryByPage(params);
+	}
+	
+	@Override
+	public List<GGYREntity> queryByMos(String[] mos) {
+		List<GGYREntity> result = Lists.newArrayList();
+		
+		List<String> moList = Lists.newArrayList();
+		int count = 0;
+		for (String mo : mos) {
+			String temp = mo.trim();
+			if (CommonUtils.validateMO(temp)) {
+				moList.add(temp);
+				count++;
+			}
+			if (count == BATCH_SIZE) {
+				List<GGYREntity> batchList = ggyrDao.queryByMos(moList);
+				if (batchList != null && batchList.size() > 0) {
+					result.addAll(batchList);
+					moList.clear();
+					count = 0;
+				}
+			}
+		}
+		if (count != 0) {
+			List<GGYREntity> batchList = ggyrDao.queryByMos(moList);
+			if (batchList != null && batchList.size() > 0) {
+				result.addAll(batchList);
+				moList.clear();
+				count = 0;
+			}
+		}
+		
+		return result;
 	}
 
 	@Override

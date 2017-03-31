@@ -27,7 +27,7 @@ import com.lenovo.itac.service.UserRoleService;
 @RequestMapping("/role")
 public class UserRoleController {
 
-	private static Logger logger = LoggerFactory.getLogger(UserRoleController.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(UserRoleController.class);
 	@Autowired
 	private UserRoleService userRoleService;
 	
@@ -42,6 +42,10 @@ public class UserRoleController {
 		
 		Map<String, String> params = Maps.newHashMap();
 		params.put("name", name);
+		String plant = ((LoginUserInfo)request.getSession().getAttribute("user")).getPlant();
+		params.put("plant", plant);
+		
+		logger.info("getUserRoles - the condition is - name:{}, plant: {}", name, plant);
 		List<UserRoleEntity> roles = userRoleService.getUserRoles(params);
 		if (null != roles) {
 			response.setData(roles);
@@ -56,6 +60,7 @@ public class UserRoleController {
 		ResponseEntity response = new ResponseEntity();
 		
 		String id = request.getParameter("id");
+		logger.info("getUserRoleById - the condition is - id:{}", id);
 		if (!StringUtils.isEmpty(id)) {
 			UserRoleEntity role = userRoleService.getUserRoleById(id);
 			response.setData(role);
@@ -86,7 +91,7 @@ public class UserRoleController {
 				userRoleService.addUserRole(userRole);
 			} else {
 				response.setCode(ResponseCode.RESPONSE_CODE_RECORD_EXIST);
-				logger.error("addUserRole - " + "The same record exists already.");
+				logger.error("addUserRole - " + "The same record exists already, {}", existRole);
 			}
 		} else {
 			response.setCode(ResponseCode.RESPONSE_CODE_PARAM_IS_NULL);

@@ -51,13 +51,13 @@ function logout() {
 		url: url,
 		dataType: "json",
 		success: function(resp) {
-			if (resp.code == 400) {
-				$.messager.alert("Error", "Failed to logout at iTAC.", "Error");
-			} else {
+			if (resp.code == 200) {
 				window.location.href = "login.jsp";
+			} else {
+				$.messager.alert("Logout", resp.msg, "warning");
 			}
 		},error: function(event, request, settings) {
-			$.messager.alert("Warning", "Connection is Time out!", "info");
+			$.messager.alert("Logout", "Connection is Time out!", "warning");
 		}
 	});
 }

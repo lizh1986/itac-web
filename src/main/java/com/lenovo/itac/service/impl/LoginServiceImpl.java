@@ -54,9 +54,9 @@ public class LoginServiceImpl implements LoginService {
 	}
 	
 	@Override
-	public boolean login(String userName, String password) {
+	public int login(String userName, String password) {
 		if (Constants.SUPER_ADMIN.equals(userName) && Constants.SUPER_ADMIN_PWD.equals(password)) {
-			return true;
+			return 0;
 		}
 		
 		IMSApiSessionValidationStruct sessionValidationStruct = new IMSApiSessionValidationStruct();
@@ -77,30 +77,26 @@ public class LoginServiceImpl implements LoginService {
 		Result_regLogin result = imsApiService.regLogin(sessionValidationStruct);
 		logger.info("result value: " + result);
 		
-		if (result.return_value != 0){
-			logger.error("Login error code is :" + result);
-			return false;
+		if (result.return_value == 0) {
+			session.put(userName, result.sessionContext);
 		}
 		
-		session.put(userName, result.sessionContext);
-		
-		return true;
+		return result.return_value;
 	}
 
 	@Override
-	public boolean logout(String userName) {
-		IMSApiSessionContextStruct value = session.get(userName);
-		Result_regLogout result = imsApiService.regLogout(value);
-		if (result.return_value == 0) {
-			session.remove(userName);
-			return true;
+	public int logout(String userName) {
+		if (Constants.SUPER_ADMIN.equalsIgnoreCase(userName)) {
+			return 0;
 		} else {
-			if (userName.equals(Constants.SUPER_ADMIN)) {
-				return true;
+			IMSApiSessionContextStruct value = session.get(userName);
+			Result_regLogout result = imsApiService.regLogout(value);
+			if (result.return_value == 0) {
+				session.remove(userName);
 			} else {
 				logger.error("Logout error code is :" + result);
-				return false;
 			}
+			return result.return_value;
 		}
 	}
 

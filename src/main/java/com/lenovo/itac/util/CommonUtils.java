@@ -2,6 +2,7 @@ package com.lenovo.itac.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -27,6 +28,9 @@ public class CommonUtils {
 	
 	/** 换行符 */
 	public static final String CHARACTER_NEW_LINE = "\\n";
+	
+	/** 逗号分隔符 */
+	public static final String CHARACTER_COMMA = ",";
 	
 	public static final String BUILD_DONE_STATION = "J33091000000000";
 	public static final String RT_DONE_STATION = "J33092000000000";
@@ -106,5 +110,19 @@ public class CommonUtils {
 			return ips;
 		}
 		return null;
+	}
+	
+	public static void close(AutoCloseable closable) throws Exception {
+		if (null != closable) {
+			closable.close();
+		}
+	}
+	
+	public static boolean isEmpty(Collection<?> collection) {
+		return (collection == null || collection.size() == 0);
+	}
+	
+	public static boolean isNotEmpty(Collection<?> collection) {
+		return !isEmpty(collection);
 	}
 }

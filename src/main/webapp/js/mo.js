@@ -185,14 +185,28 @@ function doSearch() {
 			
 			var msg = resp.msg;
 			if (msg) {
-				$.messager.alert("warning", msg.replace(/\\n/g, "<br/>"));
+				$.messager.alert("Search", msg.replace(/\\n/g, "<br/>"), "warning");
 			}
 			closeDialog();
 		},
 		error: function() {
-			$.messager.alert("Failed to query MO information.");
+			$.messager.alert("Search", "Failed to query MO information.", "warning");
 		}
 	});
+}
+
+function doExportMo() {
+	var mos = $("#searchText").val();
+	if (!JUDGE.isNull(mos)) {
+		$("#mos").val(mos);
+	} else {
+		mos = $("#mos").val();
+		$("#searchText").val(mos);
+	}
+	mos = mos.replace(/\r\n/g, ',');
+	mos = mos.replace(/\n/g, ',');
+	
+	window.location.href = '../mo/export/mos?mos=' + mos;
 }
 
 function searchSns() {
@@ -205,7 +219,7 @@ function searchSns() {
 	}
 	
 	if (mos.length == 0) {
-		$.messager.alert("Please Choose Mos to query pending SN.");
+		$.messager.alert("Query Pending SN","Please Choose Mos to query pending SN.", "warning");
 	}
 	var queryString = mos.join("\n");
 	
@@ -224,7 +238,7 @@ function searchSns() {
 	            nowrap: false,  
 	            showFooter: true,  
 	            singleSelect: true
-	        })  
+	        });  
 	  
 	        var snList = {
 				total: resp.total,
@@ -236,9 +250,26 @@ function searchSns() {
 	        $('#snDialog').window('open');
 		},
 		error: function() {
-			$.messager.alert("Failed to query  pending SN.");
+			$.messager.alert("Query Pending SN", "Failed to query  pending SN.", "warning");
 		}
 	});
+}
+
+function doExportSns() {
+	var mos = [];
+	var selected = $("#moTable").treegrid('getSelections');
+	for (var i = 0; i < selected.length; i++) {
+		if (selected[i].mo != undefined) {
+			mos.push(selected[i].mo);
+		}
+	}
+	
+	if (mos.length == 0) {
+		$.messager.alert("Query Pending SN","Please Choose Mos to query pending SN.", "warning");
+	}
+	var queryString = mos.join(",");
+	
+	window.location.href = '../mo/export/sns?mos=' + queryString;
 }
 
 function closeDialog() {

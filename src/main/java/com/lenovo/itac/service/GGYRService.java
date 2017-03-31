@@ -10,5 +10,7 @@ public interface GGYRService {
 	
 	public List<GGYREntity> queryByMOs(int page, int rows, String[] mos, String sort, String order);
 	
+	public List<GGYREntity> queryByMos(String[] mos);
+	
 	public List<String> notExists(String[] mos);
 }

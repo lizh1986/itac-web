@@ -25,6 +25,7 @@
   		<if test="name != null">
   			and name like concat('%',#{name},'%')
   		</if>
+  		and (plant is null or plant=#{plant})
   	</where>
   </select>
   

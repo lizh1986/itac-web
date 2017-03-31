@@ -13,4 +13,21 @@ public class ResponseCode {
 	
 	/** 003 - 已经分配了权限的角色，提示：以下角色已经分配了权限，无法删除。 */
 	public static final String RESPONSE_CODE_ROLE_HAS_BEEN_ASSIGNED_MSG = "The following roles have been assigned，you should unassign them before delete:";
+
+	/** 004 - session已失效，用户信息不存在 */
+	public static final String SESSION_TIME_OUT = "004";
+	
+	/** 005 - 登录失败 */
+	public static final String FAILED_TO_LOG_IN = "005";
+	
+	/** 005 - 登录失败 */
+	public static final String FAILED_TO_LOG_IN_MSG = "Failed to log in. The erro code is: %s";
+	
+	/** 006 - 注销失败 */
+	public static final String FAILED_TO_LOG_OUT = "006";
+	
+	/** 006 - 注销失败 */
+	public static final String FAILED_TO_LOG_OUT_MSG = "Failed to log out. The erro code is: %s";
+	
+	
 }

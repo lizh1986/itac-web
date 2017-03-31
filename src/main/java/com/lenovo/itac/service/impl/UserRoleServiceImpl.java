@@ -69,19 +69,21 @@ public class UserRoleServiceImpl implements UserRoleService {
 
 	@Override
 	public void assignPermission(String roleId, String[] menuIds) {
-		if (roleId != null && menuIds != null) {
+		if (roleId != null) {
 			List<String> menusInDB = getMenuIdsByRoleId(roleId);
 			List<String> menuList = Lists.newArrayList();
 			menuList.addAll(menusInDB);
 			
-			for (String menuId : menuIds) {
-				if (!menusInDB.contains(menuId)) {
-					Map<String, String> mapping = Maps.newHashMap();
-					mapping.put("roleId", roleId);
-					mapping.put("menuId", menuId);
-					userRoleDao.addRoleMenuMapping(mapping);
-				} else {
-					menuList.remove(menuId);
+			if (menuIds != null && menuIds.length != 0) {
+				for (String menuId : menuIds) {
+					if (!menusInDB.contains(menuId)) {
+						Map<String, String> mapping = Maps.newHashMap();
+						mapping.put("roleId", roleId);
+						mapping.put("menuId", menuId);
+						userRoleDao.addRoleMenuMapping(mapping);
+					} else {
+						menuList.remove(menuId);
+					}
 				}
 			}
 			

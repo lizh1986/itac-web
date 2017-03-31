@@ -39,4 +39,19 @@
   			#{item}
   		</foreach>
   </select>
+  
+  <select id="queryByMos" resultType="com.lenovo.itac.entity.GGYREntity">
+  	SELECT	IDOCNUM AS iDocNum, 
+    	   WORKORDER_NUMBER AS mo, 
+    	   GGYR AS ggyr,
+    	   PSSD AS pssd, 
+    	   RPSSD AS rpssd, 
+    	   STAMP AS stamp, 
+    	   CREATED AS created
+   	FROM CUST.GGYR 
+   	WHERE WORKORDER_NUMBER IN 
+   	<foreach item="item" collection="list" index="index" open="(" close=")" separator=",">
+   		#{item}
+   	</foreach>
+  </select>
 </mapper>

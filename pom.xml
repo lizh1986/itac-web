@@ -179,7 +179,12 @@
 		<artifactId>artes-client</artifactId>
 		<version>8.50.00.11-10</version>
 	</dependency>
-	
+
+	<dependency>
+		<groupId>org.apache.poi</groupId>
+		<artifactId>poi</artifactId>
+		<version>3.14</version>
+	</dependency>
   </dependencies>
   <build>
     <finalName>itac-web</finalName>

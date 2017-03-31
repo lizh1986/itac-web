@@ -15,4 +15,6 @@ public interface GGYRDao {
 	public List<GGYREntity> queryByPage(Map<String, Object> params);
 	
 	public List<String> queryByList(List<String> mos);
+	
+	public List<GGYREntity> queryByMos(List<String> mos);
 }

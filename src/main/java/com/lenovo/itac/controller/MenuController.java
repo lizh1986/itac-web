@@ -1,9 +1,13 @@
 package com.lenovo.itac.controller;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +25,8 @@ import com.lenovo.itac.util.Constants;
 @RequestMapping("/menu")
 public class MenuController {
 	
+	private static Logger logger = LoggerFactory.getLogger(MenuController.class);
+	
 	@Autowired
 	private LoginService loginService;
 
@@ -35,6 +41,8 @@ public class MenuController {
 		ResponseEntity response = new ResponseEntity();
 		List<MenuEntity> menus = menuService.loadMenus();
 		response.setData(menus);
+		
+		logger.info("Load menus to assign to specific role.");
 		return response;
 	}
 	
@@ -44,23 +52,32 @@ public class MenuController {
 		ResponseEntity response = new ResponseEntity();
 		
 		String userName = ((LoginUserInfo)request.getSession().getAttribute("user")).getLoginName();
-		if (userName.equalsIgnoreCase(Constants.SUPER_ADMIN)) {
+		if (Constants.SUPER_ADMIN.equalsIgnoreCase(userName)) {
 			response.setData(menuService.getFirstMenu());
+			logger.info("getFirstMenu - The logged user is super admin.");
 		} else {
 			String plant = ((LoginUserInfo)request.getSession().getAttribute("user")).getPlant();
+			logger.info("getFirstMenu - The plant is: {}, The user is: {}", plant, userName);
 			if (plant != null) {
 				List<MenuEntity> allowMenus = getAllowedMenuList(userName, plant);
 				List<MenuEntity> firstMenus = menuService.getFirstMenu();
 				
 				List<MenuEntity> result = Lists.newArrayList();
+				Set<MenuEntity> set = new HashSet<MenuEntity>();
 				for (MenuEntity menu : firstMenus) {
 					for (MenuEntity inner : allowMenus) {
-						if (inner.getId().equals(menu.getId())) {
-							result.add(menu);
+						if (inner.getId().equals(menu.getId())
+								|| (inner.getParentId() != null && inner.getParentId().equals(menu.getId()))) {
+							set.add(menu);
+							break;
 						}
-						break;
 					}
 				}
+				for (MenuEntity menu : set) {
+					result.add(menu);
+				}
+				logger.info("getFirstMenu - Load first level menus success.");
+				
 				menuService.sortByPosition(result);
 				response.setData(result);
 			}
@@ -76,10 +93,13 @@ public class MenuController {
 		if (userName.equalsIgnoreCase(Constants.SUPER_ADMIN)) {
 			List<MenuEntity> entities = menuService.getSecondMenuByParentId(parentId);
 			menuService.sortByPosition(entities);
+			logger.info("getSecondMenu - Load Second level menus success.");
 			return entities;
 		} else {
 			String plant = ((LoginUserInfo)request.getSession().getAttribute("user")).getPlant();
 			if (plant != null) {
+				logger.info("getSecondMenu - The plant is: {}, The user is: {}", plant, userName);
+				
 				List<MenuEntity> allowMenus = getAllowedMenuList(userName, plant);
 				List<MenuEntity> entities = menuService.getSecondMenuByParentId(parentId);
 				
@@ -93,6 +113,7 @@ public class MenuController {
 					}
 				}
 				menuService.sortByPosition(result);
+				logger.info("getSecondMenu - Load Second level menus success.");
 				return result;
 			}
 			return null;

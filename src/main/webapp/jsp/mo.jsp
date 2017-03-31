@@ -25,6 +25,7 @@
 			<textarea id="mos" style="height: 16px;resize:none" spellcheck="false"></textarea>
 			<a href="#" class="easyui-linkbutton" plain="true" onclick="openDialog()">Batch</a>
 			<a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">Search</a>
+			<a href="#" class="easyui-linkbutton" plain="true" onclick="doExportMo()">Export Mo</a>
 			<a href="#" class="easyui-linkbutton" plain="true" onClick="searchSns()">Pending SN</a>
 		</div>
 		
@@ -40,16 +41,22 @@
 		
 		<div id="snDialog" class="easyui-dialog" style="width: 670px; height: 300px;"  
          data-options="closed:true,resizable:true,modal:true,title:'Pending SN List'">
-         	<table id="snGrid" class="easyui-datagrid" style="width:655px;height:auto;">
-         		<thead>  
-	                <tr>  
-	                    <th field="mo" align="center" width="120" sortable="true">MO</th>  
-	                    <th field="sn" align="center" width="140" sortable="true">SN</th>  
-	                    <th field="workStep" align="center" width="120" sortable="false">Work Step</th>  
-	                    <th field="lastWsTime" align="center" width="240" sortable="false">Last Work Step Time</th>  
-	                </tr>  
-	            </thead>  
-	        </table>
+         	<div>
+         		<a href="#" class="easyui-linkbutton" plain="true" onclick="doExportSns()">Export</a>
+         	</div>
+         	<div>
+         		<table id="snGrid" class="easyui-datagrid" style="width:655px;height:auto;">
+	         		<thead>  
+		                <tr>  
+		                    <th field="mo" align="center" width="120" sortable="true">MO</th>  
+		                    <th field="sn" align="center" width="140" sortable="true">SN</th>  
+		                    <th field="workStep" align="center" width="120" sortable="false">Work Step</th>  
+		                    <th field="lastWsTime" align="center" width="240" sortable="false">Last Work Step Time</th>  
+		                </tr>  
+		            </thead>  
+		        </table>
+         	</div>
+         	
         </div>  
 	</body>
 </html>

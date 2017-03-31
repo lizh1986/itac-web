@@ -6,9 +6,9 @@ import com.lenovo.itac.entity.UserGroupEntity;
 
 public interface LoginService {
 
-	public boolean login(String userName, String password);
+	public int login(String userName, String password);
 	
-	public boolean logout(String userName);
+	public int logout(String userName);
 	
 	/**
 	 * 根据登录的用户名从iTAC中获取该用户对应的用户组，这里从数据库中通过用户和用户组的关联获取用户的用户组
