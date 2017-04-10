@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$("body").keyup(function(event){
+	$("#login-div").keyup(function(event){
 		if (event.keyCode == 13) {
 			login();
 		}

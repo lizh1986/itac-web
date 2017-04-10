@@ -105,7 +105,6 @@ function doSearch(sort, order) {
 	if (!JUDGE.isNull(mos)) {
 		$("#mos").val(mos);
 	}
-	debugger;
 	
 	var rows = $("#ggyrTable").datagrid("getPager").data("pagination").options.pageSize;
 	var page = $("#ggyrTable").datagrid("getPager").data("pagination").options.pageNumber;
