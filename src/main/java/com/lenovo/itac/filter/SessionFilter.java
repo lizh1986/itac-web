@@ -17,6 +17,7 @@ public class SessionFilter implements Filter {
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -27,12 +28,18 @@ public class SessionFilter implements Filter {
 		
 		//需要过滤掉静态资源
 		String servletPath = req.getServletPath();
-		if (servletPath.indexOf("/login") == -1) {
+		boolean isStaticResource = (servletPath.indexOf("/css/") != -1)
+					|| (servletPath.indexOf("/js/") != -1)
+					|| (servletPath.indexOf("/easyui/") != -1)
+					|| (servletPath.indexOf("/image/") != -1);
+		
+		if (servletPath.indexOf("/login") == -1 && !isStaticResource) {
 			HttpSession session = req.getSession(true);
 			if (session.getAttribute("user") == null) {
 				req.getRequestDispatcher("/login.jsp").forward(req, res);
 			}
 		}
+		
 		
 		chain.doFilter(req, res);
 	}
@@ -40,6 +47,7 @@ public class SessionFilter implements Filter {
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 		// TODO Auto-generated method stub
+
 	}
 
 }
