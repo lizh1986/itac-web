@@ -102,6 +102,11 @@ function doSearch() {
 		$("#mos").val(mos);
 	}
 	
+	if (JUDGE.isNull($("#mos").val())) {
+		$.messager.alert("Warning", "Please input Mo.");
+		return;
+	}
+	
 	var url = "../builddone/query";
 	
 	var queryParams = $("#buildDoneTable").datagrid("options").queryParams;
@@ -152,6 +157,12 @@ function doExport() {
 		mos = $("#mos").val();
 		$("#searchText").val(mos);
 	}
+	
+	if (JUDGE.isNull(mos)) {
+		$.messager.alert("Warning", "Please input Mo.");
+		return;
+	}
+	
 	mos = mos.replace(/\r\n/g, ',');
 	mos = mos.replace(/\n/g, ',');
 	window.location.href = '../builddone/export?mos=' + mos;

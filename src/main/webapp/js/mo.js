@@ -153,6 +153,11 @@ function doSearch() {
 		$("#mos").val(mos);
 	}
 	
+	if (JUDGE.isNull($("#mos").val())) {
+		$.messager.alert("Warning", "Please input Mo.");
+		return;
+	}
+	
 	var url = "../mo/querymo";
 	
 	var queryParams = $("#moTable").treegrid("options").queryParams;
@@ -203,6 +208,12 @@ function doExportMo() {
 		mos = $("#mos").val();
 		$("#searchText").val(mos);
 	}
+	
+	if (JUDGE.isNull(mos)) {
+		$.messager.alert("Warning", "Please input Mo.");
+		return;
+	}
+	
 	mos = mos.replace(/\r\n/g, ',');
 	mos = mos.replace(/\n/g, ',');
 	

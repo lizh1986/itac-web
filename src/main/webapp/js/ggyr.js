@@ -106,6 +106,11 @@ function doSearch(sort, order) {
 		$("#mos").val(mos);
 	}
 	
+	if (JUDGE.isNull($("#mos").val())) {
+		$.messager.alert("Warning", "Please input Mo.");
+		return;
+	}
+	
 	var rows = $("#ggyrTable").datagrid("getPager").data("pagination").options.pageSize;
 	var page = $("#ggyrTable").datagrid("getPager").data("pagination").options.pageNumber;
 	if (page <= 0) {
@@ -150,6 +155,12 @@ function doExport() {
 		mos = $("#mos").val();
 		$("#searchText").val(mos);
 	}
+	
+	if (JUDGE.isNull(mos)) {
+		$.messager.alert("Warning", "Please input Mo.");
+		return;
+	}
+	
 	mos = mos.replace(/\r\n/g, ',');
 	mos = mos.replace(/\n/g, ',');
 	window.location.href = '../ggyr/export?mos=' + mos;
