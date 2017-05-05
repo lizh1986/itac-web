@@ -111,6 +111,7 @@ function deleteRoles() {
     	return;
     }
     
+    $('body').showLoading();
     $.ajax({
     	type:"post",
 		url:"../role/deleteRoles",
@@ -119,6 +120,7 @@ function deleteRoles() {
 			"ids": ids.join(","),
 		},
 		success: function(resp) {
+			$('body').hideLoading();
 			if (resp.code == 001) {
 				$.messager.alert("Error", "Param is null.");
 			} else {
@@ -129,6 +131,7 @@ function deleteRoles() {
 			}
 		},
 		error: function(event, request, settings) {
+			$('body').hideLoading();
 			$.messager.alert("Error","Bad request to delete role.","error");
 		}
     });
@@ -137,6 +140,7 @@ function deleteRoles() {
 
 function modifyRole(role) {
 	var userRole;
+	$('body').showLoading();
 	$.ajax({
 		type:"post",
 		url:"../role/getRole",
@@ -145,6 +149,7 @@ function modifyRole(role) {
 			"id": role
 		},
 		success: function(resp) {
+			$('body').hideLoading();
 			if (resp.code == 200) {
 				userRole = resp.data;
 				$("#modifyRoleDialog").dialog({
@@ -224,6 +229,7 @@ function modifyRole(role) {
 		},
 		error:function(event, request, settings)
 		{
+			$('body').hideLoading();
 			$.messager.alert("Error","Bad request.","error");
 		}
 	});
@@ -242,6 +248,7 @@ function assign(roleId) {
 					ids.push(id);
 				}
 
+				$('body').showLoading();
 				$.ajax({
 					type : "post",
 					url : "../role/assignPermission",
@@ -251,9 +258,11 @@ function assign(roleId) {
 						"roleId": roleId
 					},
 					error : function(event, request, settings) {
+						$('body').hideLoading();
 						$.messager.alert("Error","Bad request to assign menus.","error");
 					},
 					success : function(result) {
+						$('body').hideLoading();
 						if (result.code == 200) {
 							$.messager.alert("Info", "Assign permission success.", "Info");
 						} else {
@@ -284,6 +293,7 @@ function assign(roleId) {
 			}
 		},
 		onLoadSuccess: function(node, data) {
+			$('body').showLoading();
 			$.ajax({
 				type : "post",
 				url : "../role/getPermissionByRoleId",
@@ -291,9 +301,11 @@ function assign(roleId) {
 					"id" : roleId
 				},
 				error : function(event, request, settings) {
+					$('body').hideLoading();
 					$.messager.alert("Error","Bad request to get menus by role id.","error");
 				},
 				success : function(resp) {
+					$('body').hideLoading();
 					if (resp.code == 200) {
 						if (resp.data.length > 0) {
 							for (var i = 0; i < resp.data.length; i++) {
@@ -330,12 +342,14 @@ function saveRole() {
 		"description": roleDesc
 	};
 	
+	$('body').showLoading();
 	$.ajax({
 		type:"post",
 		url:"../role/addRole",
 		dataType: "json",
 		data: userRoleEntity,
 		success: function(resp) {
+			$('body').hideLoading();
 			if (resp.code == 001) {
 				$.messager.alert("Error", "Param is null.");
 			} else if (resp.code == 002) {
@@ -352,6 +366,7 @@ function saveRole() {
 		},
 		error:function(event, request, settings)
 		{
+			$('body').hideLoading();
 			$.messager.alert("Error","Bad request.","error");
 		}
 	});

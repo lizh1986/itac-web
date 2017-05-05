@@ -68,12 +68,12 @@ public class CommonUtils {
 		return String.format(TIME_FORMAT_DURATION, intervalDays, intervalHours);
 	}
 	
-	private static int getIntervalDays(Date fDate, Date oDate) {
+	public static int getIntervalDays(Date fDate, Date oDate) {
 	    if (null == fDate || null == oDate) {
 	        return -1;
 	    }
 
-	    long intervalMilli = oDate.getTime() - fDate.getTime();
+	    long intervalMilli = oDate.getTime() - fDate.getTime() + 1 * 1000;
 
 	    return (int) (intervalMilli / (24 * 60 * 60 * 1000));
 	 }

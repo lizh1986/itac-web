@@ -23,12 +23,14 @@ function login() {
 		"password":password
 	};
 	
+	$('body').showLoading();
 	$.ajax({
 		type:"post",
 		url:"login",
 		data:loginInfo,
 		success:function(resp)
 		{
+			$('body').hideLoading();
 			if (resp.code == 200)
 			{
 				$("#login-user").empty();
@@ -41,6 +43,7 @@ function login() {
 		},
 		error:function(event, request, settings)
 		{
+			$('body').hideLoading();
 			$.messager.alert("Login","Failed to connect to server.","error");
 		}
 	});

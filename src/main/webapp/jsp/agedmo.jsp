@@ -8,6 +8,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE/9/10/11" >
 		<title>iTAC-Web</title>
 		
+		<link rel="stylesheet" type="text/css" href="../css/showLoading.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">
 		<link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
 		<link rel="stylesheet" type="text/css" href="../css/agedmo.css">
@@ -15,6 +16,8 @@
 		<script type="text/javascript" src="../easyui/jquery.min.js"></script>
 		<script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
 		<script type="text/javascript" src="../easyui/locale/easyui-lang-en.js"></script>
+		
+		<script type="text/javascript" src="../js/jquery.showLoading.min.js"></script>
 		
 		<script type="text/javascript" src="../js/common.js"></script>
 		<script type="text/javascript" src="../js/agedmo.js"></script>

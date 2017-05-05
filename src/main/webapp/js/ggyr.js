@@ -117,6 +117,7 @@ function doSearch(sort, order) {
 		page = 1;
 	}
 	
+	$('body').showLoading();
 	$.ajax({
 		type:"post",
 		url:"../ggyr/query",
@@ -129,6 +130,7 @@ function doSearch(sort, order) {
 			order: order
 		},
 		success: function(resp) {
+			$('body').hideLoading();
 			var datas = {
 				total: resp.total,
 				data: resp.data
@@ -142,6 +144,7 @@ function doSearch(sort, order) {
 			closeDialog();
 		},
 		error: function() {
+			$('body').hideLoading();
 			$.messager.alert("Failed to query ggyr.");
 		}
 	});

@@ -62,6 +62,10 @@ public class MenuServiceImpl implements MenuService {
 				}
 			}
 		}
-		
+	}
+
+	@Override
+	public MenuEntity getMenuById(String id) {
+		return menuDao.getMenuById(id);
 	}
 }

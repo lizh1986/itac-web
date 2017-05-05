@@ -58,12 +58,12 @@
 	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
 	<bean id="itacSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="itacDataSource" />
-		<property name="MapperLocations" value="classpath*:com/lenovo/itac/dao/*.xml"></property>
+		<property name="MapperLocations" value="classpath*:com/lenovo/itac/dao/mapper/*.xml"></property>
 	</bean>
 	
 	<bean id="itacWebSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="itacWebDataSource" />
-		<property name="MapperLocations" value="classpath*:com/lenovo/itac_web/dao/*.xml"></property>
+		<property name="MapperLocations" value="classpath*:com/lenovo/itac_web/dao/mapper/*.xml"></property>
 	</bean>
 	
 	<!-- 配置SqlSessionTemplate -->  

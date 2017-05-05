@@ -13,4 +13,6 @@ public interface MenuService {
 	public List<MenuEntity> getSecondMenuByParentId(String parentId);
 	
 	public void sortByPosition(List<MenuEntity> menuList);
+	
+	public MenuEntity getMenuById(String id);
 }

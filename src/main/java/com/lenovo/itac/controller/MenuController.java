@@ -19,11 +19,14 @@ import com.lenovo.itac.http.response.ResponseEntity;
 import com.lenovo.itac.service.LoginService;
 import com.lenovo.itac.service.MenuService;
 import com.lenovo.itac.service.UserRoleService;
+import com.lenovo.itac.service.api.ItacApiService;
 import com.lenovo.itac.util.Constants;
 
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
+	
+	
 	
 	private static Logger logger = LoggerFactory.getLogger(MenuController.class);
 	
@@ -136,6 +139,18 @@ public class MenuController {
 			if (menus != null) {
 				allowMenus.addAll(menus);
 			}
+		}
+		
+		// 临时方案，需求：需要按照指定用户设置过站的权限。
+		if (ItacApiService.excludeUsers.contains(userName.toUpperCase())) {
+			MenuEntity entity = menuService.getMenuById("001-005");
+			for (MenuEntity e : allowMenus) {
+				if (e.getId().equals(entity.getId())) {
+					allowMenus.remove(e);
+					break;
+				}
+			}
+			allowMenus.add(entity);
 		}
 		
 		return allowMenus;

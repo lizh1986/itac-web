@@ -1,6 +1,6 @@
 
 function resize() {
-	$("#calendar").datagrid("resize", {
+	$("#agedmoTable").datagrid("resize", {
 		width: function() {
 			return document.documentElement.clientWidth * 0.96;
 		},
@@ -48,6 +48,7 @@ $(function(){
 		        	   title:"Aged",
 		        	   width:150,
 		        	   styler: function(value,row,index) {
+		        		   debugger;
 		        		   var v = $.trim(value.split('day')[0]);
 		        		   if (v >= 2) {
 		        			   return 'color:red;';
@@ -140,6 +141,7 @@ function doSearch() {
 	$("#agedmoTable").datagrid("options").url = url;
 	var rows = $("#agedmoTable").datagrid("getPager").data("pagination").options.pageSize;
 	
+	$('body').showLoading();
 	$.ajax({
 		type:"post",
 		url:url,
@@ -148,6 +150,7 @@ function doSearch() {
 			mos: $("#mos").val()
 		},
 		success: function(resp) {
+			$('body').hideLoading();
 			if (resp.total <= 0) {
 				$("#agedmoTable").datagrid("loadData", {total: 0, data: []});
 				$.messager.alert("warning", "No Data Found.");
@@ -172,6 +175,7 @@ function doSearch() {
 			closeDialog();
 		},
 		error: function() {
+			$('body').hideLoading();
 			$.messager.alert("Failed to query aged MO information.");
 		}
 	});

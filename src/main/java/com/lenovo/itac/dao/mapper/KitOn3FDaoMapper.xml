@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lenovo.itac.dao.KitOn3FDao">
+
+	<resultMap type="com.lenovo.itac.entity.KitOn3FEntity" id="kitOn3FMap">
+		<result property="serialNumber" column="serialNumber" jdbcType="VARCHAR" />
+		<result property="containerNumber" column="containerNumber" jdbcType="VARCHAR" />
+		<result property="partNumber" column="partNumber" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="query" resultMap="kitOn3FMap">
+		SELECT c.SERIAL_NUMBER AS serialNumber, c.CONTAINER_NUMBER AS containerNumber, s.ARTIKEL AS partNumber
+		FROM cust.CV_SERIAL_NO_SETUP c
+		JOIN bde.CHARGE s ON c.WORKORDER_NUMBER=s.CHARGE_EXT
+		WHERE 1=1 AND c.STATION_NUMBER like 'J310OKT3F%' AND c.MAT_ACTIVE = 1
+			AND (c.CONTAINER_NUMBER LIKE '11S%' OR c.CONTAINER_NUMBER LIKE '8S%')
+			AND c.SETUP_STAMP BETWEEN #{from} AND #{to}
+	</select>
+</mapper>

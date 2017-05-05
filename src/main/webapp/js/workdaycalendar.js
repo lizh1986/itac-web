@@ -33,6 +33,7 @@ $(function(){
 				type = 0;
 			}
 			
+			$('body').showLoading();
 			$.ajax({
 				type: "post",
 				url: "../workday/set",
@@ -42,6 +43,7 @@ $(function(){
 					type: type
 				},
 				success: function(resp) {
+					$('body').hideLoading();
 					if (resp.code == "200") {
 						if (type == 0) {
 							cell.children().find('.fc-day-content').empty();
@@ -54,6 +56,7 @@ $(function(){
 					}
 				},
 				error: function() {
+					$('body').hideLoading();
 					$.messager.alert("Failed to set off day.");
 				}
 			});
@@ -61,6 +64,8 @@ $(function(){
 		viewRender: function(view, element) {
 			var start = $.fullCalendar.formatDate(view.start,"yyyy-MM-dd");
 			var end = $.fullCalendar.formatDate(view.end,"yyyy-MM-dd");
+			
+			$('body').showLoading();
 			$.ajax({
 				type: "post",
 				url: "../workday/query",
@@ -70,12 +75,10 @@ $(function(){
 					end: end
 				},
 				success: function(resp) {
-					debugger;
+					$('body').hideLoading();
 					if (resp.code == "200") {
 						$(".fc-day").each(function(){
-							debugger;
 							if (isExist(resp.data, $(this).attr("data-date"))) {
-								debugger;
 								var state ='<font class="redFont" style="font-weight: bold;background: #FFAB3D;color: #fff;padding: 5px;font-size: 16px;border-radius: 5px;">OFF</font>';
 								$(this).children().find('.fc-day-content').append(state);
 							}
@@ -85,6 +88,7 @@ $(function(){
 					}
 				},
 				error: function() {
+					$('body').hideLoading();
 					$.messager.alert("Failed to set off day.");
 				}
 			});

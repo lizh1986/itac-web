@@ -12,4 +12,6 @@ public interface MenuDao {
 	public List<MenuEntity> getFirstMenu();
 	
 	public List<MenuEntity> getSecondMenuByParentId(String parentId);
+	
+	public MenuEntity getMenuById(String id);
 }
