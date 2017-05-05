@@ -115,6 +115,7 @@ function doSearch() {
 	$("#buildDoneTable").datagrid("options").url = url;
 	var rows = $("#buildDoneTable").datagrid("getPager").data("pagination").options.pageSize;
 	
+	$('body').showLoading();
 	$.ajax({
 		type:"post",
 		url:url,
@@ -125,6 +126,7 @@ function doSearch() {
 			mos: $("#mos").val()
 		},
 		success: function(resp) {
+			$('body').hideLoading();
 			datas = {
 				total: resp.total,
 				data: resp.data
@@ -143,6 +145,7 @@ function doSearch() {
 			closeDialog();
 		},
 		error: function() {
+			$('body').hideLoading();
 			$.messager.alert("Failed to query build done fail list.");
 		}
 	});

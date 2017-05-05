@@ -167,7 +167,7 @@ function doSearch() {
 	var rows = $("#moTable").treegrid("getPager").data("pagination").options.pageSize;
 	
 //	$("#moTable").treegrid("loadData", moData);
-	
+	$('body').showLoading();
 	$.ajax({
 		type:"post",
 		url:url,
@@ -176,6 +176,7 @@ function doSearch() {
 			mos: $("#mos").val()
 		},
 		success: function(resp) {
+			$('body').hideLoading();
 			datas = {
 				total: resp.total,
 				data: resp.data
@@ -195,6 +196,7 @@ function doSearch() {
 			closeDialog();
 		},
 		error: function() {
+			$('body').hideLoading();
 			$.messager.alert("Search", "Failed to query MO information.", "warning");
 		}
 	});

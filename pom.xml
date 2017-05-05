@@ -185,6 +185,12 @@
 		<artifactId>poi</artifactId>
 		<version>3.14</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+	<dependency>
+	    <groupId>joda-time</groupId>
+	    <artifactId>joda-time</artifactId>
+	    <version>2.9.9</version>
+	</dependency>
   </dependencies>
   <build>
     <finalName>itac-web</finalName>

@@ -29,5 +29,9 @@ public class ResponseCode {
 	/** 006 - 注销失败 */
 	public static final String FAILED_TO_LOG_OUT_MSG = "Failed to log out. The erro code is: %s";
 	
-	
+	/** 007 - 时间范围不正确，起始时间不能晚于终止时间 */
+	public static final String RESPONSE_CODE_TIME_RANGE = "007";
+
+	/** 008 - 选择的时间范围太长，不支持 */
+	public static final String RESPONSE_CODE_TIME_RANGE_TOO_LONG = "008";
 }

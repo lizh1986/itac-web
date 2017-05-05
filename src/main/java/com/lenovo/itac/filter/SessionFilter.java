@@ -29,7 +29,8 @@ public class SessionFilter implements Filter {
 		boolean isStaticResource = (servletPath.indexOf("/css/") != -1)
 					|| (servletPath.indexOf("/js/") != -1)
 					|| (servletPath.indexOf("/easyui/") != -1)
-					|| (servletPath.indexOf("/image/") != -1);
+					|| (servletPath.indexOf("/image/") != -1)
+					|| (servletPath.indexOf("/fullcalendar/") != -1);
 		
 		if (servletPath.indexOf("/login") == -1 && !isStaticResource) {
 			HttpSession session = req.getSession(true);

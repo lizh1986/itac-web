@@ -3,10 +3,12 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="../css/showLoading.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="../fullcalendar/fullcalendar.css">
 		<script type="text/javascript" src="../easyui/jquery.min.js"></script>
 		<script src='../fullcalendar/fullcalendar.js'></script>
 		<script type="text/javascript" src="../js/workdaycalendar.js"></script>
+		<script type="text/javascript" src="../js/jquery.showLoading.min.js"></script>
 		<title>iTAC-Web</title>
 		<style>
 			body {
