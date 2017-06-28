@@ -8,12 +8,15 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE/9/10/11" >
 		<title>iTAC Web</title>
 
+		<link rel="stylesheet" type="text/css" href="css/showLoading.css" media="screen" />
 		<link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
 		<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
 		<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
 		<link rel="stylesheet" type="text/css" href="css/login.css" />
+		
 		<script src="easyui/jquery.min.js"></script>
 		<script src="easyui/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="js/jquery.showLoading.min.js"></script>
 		<script src="js/common.js"></script>
 		<script src="js/login.js"></script>
 	</head>
