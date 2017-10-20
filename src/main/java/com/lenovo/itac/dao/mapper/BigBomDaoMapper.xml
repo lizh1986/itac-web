@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lenovo.itac.dao.BigBomDao">
+
+	<select id="getAll" resultType="com.lenovo.itac.entity.BigBomEntity">
+		select 
+			c.CHARGE_EXT as workOrder, 
+			c.ARTIKEL as partNumber, 
+			c.CREATED as createTime, 
+			count(*) as quantity
+		from bde.CHARGE c
+		join glo.SKSL_DELTA s on c.CHARGE_NR=s.CHARGE_NR
+		where substring(c.ARTIKEL,0,5) in ('7X11','7X12','7X13') and c.BEA_STATUS='F'
+		group by s.CHARGE_NR, c.CHARGE_EXT, c.ARTIKEL, c.CREATED
+		having count(*)>999
+	</select>
+</mapper>
+

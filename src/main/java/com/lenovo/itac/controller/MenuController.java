@@ -26,8 +26,6 @@ import com.lenovo.itac.util.Constants;
 @RequestMapping("/menu")
 public class MenuController {
 	
-	
-	
 	private static Logger logger = LoggerFactory.getLogger(MenuController.class);
 	
 	@Autowired
